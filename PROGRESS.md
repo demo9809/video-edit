@@ -11,10 +11,12 @@ Next step: once Google Drive download is allowed in the environment network poli
 Open issues:
 - Environment network policy blocks drive.google.com / drive.usercontent.google.com, huggingface.co, pixabay.com, cdn.jsdelivr.net.
 - Drive connector returns files inline as base64, unusable for a 649 MB video.
-- Presenter reference image mentioned in brief is not in the Drive folder.
 - No music, SFX, brand guideline, website or contact info supplied.
 Key decisions & preferences:
 - Use original recorded dialogue; no ElevenLabs VO (user override of skill rule 9).
 - No em-dashes in any on-screen or written copy.
+- No presenter reference image needed (user, 2026-10-16).
+- End card: logos only, no website/handle (user confirmed none).
+- Reframe with proper cinematic zoom/crop; user finds the current framing weak.
 - Do not invent website, phone, social handle, certifications or Alexa claims.
 Key files: PROJECT.md, LOG.md, manifest.json
