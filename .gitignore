@@ -1,0 +1,8 @@
+.env
+*.env
+cache/
+models/
+assets/footage/*
+!assets/footage/.gitkeep
+renders/previews/
+node_modules/

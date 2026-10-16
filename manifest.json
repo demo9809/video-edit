@@ -1,0 +1,11 @@
+{
+  "drive_folder": "1DZy21Z8WjP_BsQ0LXeNf0kNgeF8hO1LX",
+  "assets": [
+    {"name": "Octonics_demo.mp4", "drive_id": "1-gXMvCD9n9bNlbdCZLAVGZwbkTRV7N-S", "bytes": 648938611, "role": "master source footage", "license": "client-owned", "local": null},
+    {"name": "KNX_logo.svg", "drive_id": "1YyjHTMI0Ntgu533yhP-KwxwKVNuMUo7r", "bytes": 4238, "role": "KNX logo (secondary mark)", "license": "client-supplied trademark", "local": null},
+    {"name": "Octonics Logo with Wordmark HiRes - Reverse.png", "drive_id": "18S0HT6wX-3PRs4O51w_9hYZkokEXS-Bz", "bytes": 63894, "role": "end card primary (dark bg)", "license": "client-owned", "local": null},
+    {"name": "Octonics Emblem HiRes - Reverse.png", "drive_id": "1S-85J5XDiMwwecz9io_F8dbXtzZgna7-", "bytes": 63829, "role": "emblem (dark bg)", "license": "client-owned", "local": null},
+    {"name": "Octonics Logo.ai / .pdf", "drive_id": "18umg73jqnx8Qy9_u6_IpuNg_EXqrvmIo / 1ItSzMm0HpB9i18-YCUfJgkVIC1x283Xl", "role": "vector masters", "license": "client-owned", "local": null},
+    {"name": "Inter (system font)", "path": "/usr/share/fonts/opentype/inter", "license": "SIL OFL 1.1", "role": "typography"}
+  ]
+}
