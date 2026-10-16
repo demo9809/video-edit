@@ -1,5 +1,5 @@
 # PROGRESS - Octonics x KNX Reel   (updated 2026-10-16)
-Phase: final (rendering v1 final)
+Phase: DONE (v1 delivered, awaiting any client feedback)
 Current version: renders/final/octonics_knx_reel_v1.mp4 (1080x1920, 30 fps, 39.3 s)
 Done:
 - Preview v1 reviewed by user. Feedback applied (v2 changes):
@@ -9,7 +9,9 @@ Done:
   4. Captions: Inter ExtraBold + Instrument Serif Italic accents, blue word box on spoken word, blur/pop reveals, auto-placed below the face.
   5. KNX logo on solid white card.
 - User waived another low-res approval: go straight to final.
-Next step: QA final (ffprobe, loudness, full contact sheet), deliver via SendUserFile, commit docs.
+Final QA: 1080x1920, 30/1 fps, 1179 frames, H.264 High yuv420p + AAC LC 48 kHz stereo 256k, 39.300 s, faststart, 63.8 MB, -14.3 LUFS, TP -1.7 dBTP, full decode OK, contact sheet renders/final/qa_contact_v1.jpg, edge crops renders/final/qa_edges_v1.jpg.
+Delivered via in-app file (Drive connector cannot upload files this large).
+Next step: wait for client feedback; any change = new version v2 (never overwrite v1).
 Rebuild order: scripts/timeline.py -> scripts/matte.py -> scripts/face_out.py -> scripts/mix_audio.py -> src/render.js
 Key decisions & preferences:
 - Original dialogue only. No HuggingFace. ElevenLabs only for sound. No AI image/video generation.

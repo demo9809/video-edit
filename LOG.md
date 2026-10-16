@@ -24,3 +24,5 @@
 - 2026-10-16 face_out.py: MediaPipe on output frames, CLAHE retry for coloured light, size checks vs source track, outlier shot rejection. 1102/1104 frames detected.
 - 2026-10-16 Added Instrument Serif Italic (OFL) from google/fonts GitHub. New caption system + face-aware placement. Debug sheets verified no overlay on face across 0-39.3 s.
 - 2026-10-16 Final render started: renders/final/octonics_knx_reel_v1.mp4 (crf 16, slow).
+- 2026-10-16 Final render v1 done (432 s). AAC encode pushed TP to -1.4; remuxed audio -0.25 dB -> -14.3 LUFS / -1.7 dBTP. QA passed. Delivered renders/final/octonics_knx_reel_v1.mp4.
+- Credits: music + SFX ElevenLabs (user account); fonts Inter + Instrument Serif (SIL OFL); logos client-supplied; MediaPipe models Apache-2.0; all visuals code-drawn, no stock, no AI image/video generation.

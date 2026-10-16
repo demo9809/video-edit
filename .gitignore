@@ -8,3 +8,4 @@ renders/previews/
 node_modules/
 .venv/
 node_modules/
+renders/final/*.mp4
