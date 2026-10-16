@@ -18,5 +18,7 @@ Key decisions & preferences:
 - No presenter reference image needed (user, 2026-10-16).
 - End card: logos only, no website/handle (user confirmed none).
 - Reframe with proper cinematic zoom/crop; user finds the current framing weak.
+- NEVER use HuggingFace. No AI image/video generation. ElevenLabs allowed for sound only (SFX, music, transcription).
+- Isolation plan: white-background key + MediaPipe (PyPI) instead of HF matting models.
 - Do not invent website, phone, social handle, certifications or Alexa claims.
 Key files: PROJECT.md, LOG.md, manifest.json
