@@ -1,20 +1,231 @@
 {
-  "fps": 30, "width": 1080, "height": 1920,
-  "source": "assets/footage/Octonics_demo.mp4",
-  "note": "Source times in seconds. Output start = running sum. speed<1 = slow motion (source is 120 fps).",
-  "segments": [
-    {"id": 1,  "src": [0.30, 3.20],   "speed": 1,   "text": "Are you building your dream home? Then don't miss this.", "frame": "CU 2.0x push", "bg": "arch"},
-    {"id": 2,  "src": [4.15, 5.95],   "speed": 1,   "text": "Do you wanna know how a smart system works?", "frame": "MCU 1.7x", "bg": "arch"},
-    {"id": 3,  "src": [6.62, 9.45],   "speed": 1,   "text": "Hey, Alexa, dim the light.", "frame": "MCU 1.6x -> 1.8x", "bg": "REAL (lights change)"},
-    {"id": 4,  "src": [11.20, 12.15], "speed": 1,   "text": "twenty percentage.", "frame": "CU 2.0x", "bg": "REAL"},
-    {"id": 5,  "src": [12.15, 13.05], "speed": 0.5, "text": "", "frame": "MCU 1.6x slow-mo light warm-down", "bg": "REAL"},
-    {"id": 6,  "src": [43.05, 45.55], "speed": 1,   "text": "That's the intelligent home automation with KNX.", "frame": "MCU 1.7x", "bg": "arch"},
-    {"id": 7,  "src": [30.60, 32.50], "speed": 1,   "text": "What makes a home truly smart?", "frame": "CU 2.0x", "bg": "arch"},
-    {"id": 8,  "src": [32.95, 35.10], "speed": 1,   "text": "It's not just controlling your home from phone.", "frame": "MCU 1.7x offset left", "bg": "arch"},
-    {"id": 9,  "src": [35.62, 42.35], "speed": 1,   "text": "It's having your advanced lighting, AC control, curtains, and every other systems in a single simple application.", "frame": "MCU 1.7x offset left + B-roll inserts", "bg": "arch"},
-    {"id": 10, "src": [53.90, 58.65], "speed": 1,   "text": "Before you start electrical wiring, consider KNX smart home automation system.", "frame": "MCU 1.7x / floor plan", "bg": "arch"},
-    {"id": 11, "src": [59.25, 65.15], "speed": 1,   "text": "The right planning from day one can make your home smarter, easy to handle, and comfortable.", "frame": "MCU 1.7x + montage", "bg": "arch"},
-    {"id": 12, "src": [65.65, 68.26], "speed": 1,   "text": "Plan smart, build smart, choose Octonics.", "frame": "CU 2.0x", "bg": "arch"},
-    {"id": 13, "card": "end", "dur": 2.5}
-  ]
+ "fps": 30,
+ "width": 1080,
+ "height": 1920,
+ "source": "assets/footage/Octonics_demo.mp4",
+ "note": "Source times in seconds. Output start = running sum. speed<1 = slow motion (source is 120 fps).",
+ "segments": [
+  {
+   "id": 1,
+   "src": [
+    0.3,
+    3.2
+   ],
+   "speed": 1,
+   "text": "Are you building your dream home? Then don't miss this.",
+   "frame": "CU 2.0x push",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.5,
+    "z1": 1.68,
+    "eye": 0.5,
+    "dx": 0
+   },
+   "mode": "matte"
+  },
+  {
+   "id": 2,
+   "src": [
+    4.15,
+    5.95
+   ],
+   "speed": 1,
+   "text": "Do you wanna know how a smart system works?",
+   "frame": "MCU 1.7x",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.7,
+    "z1": 1.76,
+    "eye": 0.36,
+    "dx": 0
+   },
+   "mode": "matte"
+  },
+  {
+   "id": 3,
+   "src": [
+    6.62,
+    9.45
+   ],
+   "speed": 1,
+   "text": "Hey, Alexa, dim the light.",
+   "frame": "MCU 1.6x -> 1.8x",
+   "bg": "REAL (lights change)",
+   "cam": {
+    "z0": 1.55,
+    "z1": 1.75,
+    "eye": 0.4,
+    "dx": 0
+   },
+   "mode": "real"
+  },
+  {
+   "id": 4,
+   "src": [
+    11.2,
+    12.15
+   ],
+   "speed": 1,
+   "text": "twenty percentage.",
+   "frame": "CU 2.0x",
+   "bg": "REAL",
+   "cam": {
+    "z0": 2.0,
+    "z1": 2.06,
+    "eye": 0.4,
+    "dx": 0
+   },
+   "mode": "real"
+  },
+  {
+   "id": 5,
+   "src": [
+    12.15,
+    13.05
+   ],
+   "speed": 0.5,
+   "text": "",
+   "frame": "MCU 1.6x slow-mo light warm-down",
+   "bg": "REAL",
+   "cam": {
+    "z0": 1.6,
+    "z1": 1.66,
+    "eye": 0.4,
+    "dx": 0
+   },
+   "mode": "real"
+  },
+  {
+   "id": 6,
+   "src": [
+    43.05,
+    45.55
+   ],
+   "speed": 1,
+   "text": "That's the intelligent home automation with KNX.",
+   "frame": "MCU 1.7x",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.7,
+    "z1": 1.78,
+    "eye": 0.36,
+    "dx": 0
+   },
+   "mode": "matte"
+  },
+  {
+   "id": 7,
+   "src": [
+    30.6,
+    32.5
+   ],
+   "speed": 1,
+   "text": "What makes a home truly smart?",
+   "frame": "CU 2.0x",
+   "bg": "arch",
+   "cam": {
+    "z0": 2.0,
+    "z1": 2.12,
+    "eye": 0.38,
+    "dx": 0
+   },
+   "mode": "matte"
+  },
+  {
+   "id": 8,
+   "src": [
+    32.95,
+    35.1
+   ],
+   "speed": 1,
+   "text": "It's not just controlling your home from phone.",
+   "frame": "MCU 1.7x offset left",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.7,
+    "z1": 1.74,
+    "eye": 0.36,
+    "dx": -0.13
+   },
+   "mode": "matte"
+  },
+  {
+   "id": 9,
+   "src": [
+    35.62,
+    42.35
+   ],
+   "speed": 1,
+   "text": "It's having your advanced lighting, AC control, curtains, and every other systems in a single simple application.",
+   "frame": "MCU 1.7x offset left + B-roll inserts",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.74,
+    "z1": 1.82,
+    "eye": 0.36,
+    "dx": -0.13
+   },
+   "mode": "matte"
+  },
+  {
+   "id": 10,
+   "src": [
+    53.9,
+    58.65
+   ],
+   "speed": 1,
+   "text": "Before you start electrical wiring, consider KNX smart home automation system.",
+   "frame": "MCU 1.7x / floor plan",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.7,
+    "z1": 1.8,
+    "eye": 0.36,
+    "dx": 0
+   },
+   "mode": "matte"
+  },
+  {
+   "id": 11,
+   "src": [
+    59.25,
+    65.15
+   ],
+   "speed": 1,
+   "text": "The right planning from day one can make your home smarter, easy to handle, and comfortable.",
+   "frame": "MCU 1.7x + montage",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.7,
+    "z1": 1.82,
+    "eye": 0.36,
+    "dx": 0
+   },
+   "mode": "matte"
+  },
+  {
+   "id": 12,
+   "src": [
+    65.65,
+    68.26
+   ],
+   "speed": 1,
+   "text": "Plan smart, build smart, choose Octonics.",
+   "frame": "CU 2.0x",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.72,
+    "z1": 1.86,
+    "eye": 0.47,
+    "dx": 0
+   },
+   "mode": "matte"
+  },
+  {
+   "id": 13,
+   "card": "end",
+   "dur": 2.5
+  }
+ ],
+ "cam_note": "z = zoom (1 = full source frame). eye = face centre height as fraction of crop. dx = face offset from centre, fraction of width."
 }

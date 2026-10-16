@@ -11,3 +11,10 @@
 - 2026-10-16 MediaPipe 1.1.1 in .venv (models from storage.googleapis.com, not HuggingFace). Face track -> cache/faces.json.
 - 2026-10-16 Framing test (1.7x MCU, 2.0x CU) and matte test rendered. Matte has white edge halo; needs refinement.
 - 2026-10-16 Wrote plan/storyboard.md and plan/beats.json (~39.3 s cut).
+- 2026-10-16 User approved plan: Alexa early, visuals option C (code-drawn), ElevenLabs credits for sound.
+- 2026-10-16 ElevenLabs flow rJwDM1R6J4IatLelW2dA: music (eleven_music_v2_5, 41 s) + 7 SFX x4 variations (~4480 credits). Downloaded 32 files.
+- 2026-10-16 Brand blue sampled from official logo: #0072BC. Wordmark includes tagline "Multibrain. Unified Intelligence."
+- 2026-10-16 Matte v2: MediaPipe multiclass + wall-plate colour key in edge band + guided filter + largest-component cleanup + edge decontamination. Rendered 1104 fg frames.
+- 2026-10-16 Built renderer; preview loops on 0-10, 10-20, 20-30, 30-39.3. Fixed: hook headline legibility, dark glass on real footage, panel over face, plan/caption overlap, caption spill across cuts, room set detail, final slams over head, plan-to-room ghosting.
+- 2026-10-16 Audio mix: dialogue chain (HPF, afftdn, de-ess, comp, presence EQ), music ducked (sidechain), 21 SFX events, 2-pass loudnorm -> -14.0 LUFS / -1.5 dBTP.
+- 2026-10-16 Rendered renders/previews/preview_v1.mp4 (540x960) + 5 full-res style frames.

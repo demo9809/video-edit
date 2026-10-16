@@ -1,11 +1,299 @@
 {
-  "drive_folder": "1DZy21Z8WjP_BsQ0LXeNf0kNgeF8hO1LX",
-  "assets": [
-    {"name": "Octonics_demo.mp4", "drive_id": "1-gXMvCD9n9bNlbdCZLAVGZwbkTRV7N-S", "bytes": 648938611, "role": "master source footage", "license": "client-owned", "local": null},
-    {"name": "KNX_logo.svg", "drive_id": "1YyjHTMI0Ntgu533yhP-KwxwKVNuMUo7r", "bytes": 4238, "role": "KNX logo (secondary mark)", "license": "client-supplied trademark", "local": null},
-    {"name": "Octonics Logo with Wordmark HiRes - Reverse.png", "drive_id": "18S0HT6wX-3PRs4O51w_9hYZkokEXS-Bz", "bytes": 63894, "role": "end card primary (dark bg)", "license": "client-owned", "local": null},
-    {"name": "Octonics Emblem HiRes - Reverse.png", "drive_id": "1S-85J5XDiMwwecz9io_F8dbXtzZgna7-", "bytes": 63829, "role": "emblem (dark bg)", "license": "client-owned", "local": null},
-    {"name": "Octonics Logo.ai / .pdf", "drive_id": "18umg73jqnx8Qy9_u6_IpuNg_EXqrvmIo / 1ItSzMm0HpB9i18-YCUfJgkVIC1x283Xl", "role": "vector masters", "license": "client-owned", "local": null},
-    {"name": "Inter (system font)", "path": "/usr/share/fonts/opentype/inter", "license": "SIL OFL 1.1", "role": "typography"}
-  ]
+ "drive_folder": "1DZy21Z8WjP_BsQ0LXeNf0kNgeF8hO1LX",
+ "assets": [
+  {
+   "name": "Octonics_demo.mp4",
+   "drive_id": "1-gXMvCD9n9bNlbdCZLAVGZwbkTRV7N-S",
+   "bytes": 648938611,
+   "role": "master source footage",
+   "license": "client-owned",
+   "local": null
+  },
+  {
+   "name": "KNX_logo.svg",
+   "drive_id": "1YyjHTMI0Ntgu533yhP-KwxwKVNuMUo7r",
+   "bytes": 4238,
+   "role": "KNX logo (secondary mark)",
+   "license": "client-supplied trademark",
+   "local": null
+  },
+  {
+   "name": "Octonics Logo with Wordmark HiRes - Reverse.png",
+   "drive_id": "18S0HT6wX-3PRs4O51w_9hYZkokEXS-Bz",
+   "bytes": 63894,
+   "role": "end card primary (dark bg)",
+   "license": "client-owned",
+   "local": null
+  },
+  {
+   "name": "Octonics Emblem HiRes - Reverse.png",
+   "drive_id": "1S-85J5XDiMwwecz9io_F8dbXtzZgna7-",
+   "bytes": 63829,
+   "role": "emblem (dark bg)",
+   "license": "client-owned",
+   "local": null
+  },
+  {
+   "name": "Octonics Logo.ai / .pdf",
+   "drive_id": "18umg73jqnx8Qy9_u6_IpuNg_EXqrvmIo / 1ItSzMm0HpB9i18-YCUfJgkVIC1x283Xl",
+   "role": "vector masters",
+   "license": "client-owned",
+   "local": null
+  },
+  {
+   "name": "Inter (system font)",
+   "path": "/usr/share/fonts/opentype/inter",
+   "license": "SIL OFL 1.1",
+   "role": "typography"
+  },
+  {
+   "path": "assets/music/music_bed_v1.mp3",
+   "source": "ElevenLabs eleven_music_v2_5",
+   "generation_id": "LE2mVXqqPI456LiAAR3m",
+   "prompt": "Premium minimal electronic cinematic instrumental at 100 BPM for a luxury smart-home technology ad: tight muted kick pulse, deep warm sub bass, soft analog synth arpeggio, airy pads and subtle glassy ",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/music/music_bed_v2.mp3",
+   "source": "ElevenLabs eleven_music_v2_5",
+   "generation_id": "1n0AOHyMsuaQ1Bpx8R5X",
+   "prompt": "Premium minimal electronic cinematic instrumental at 100 BPM for a luxury smart-home technology ad: tight muted kick pulse, deep warm sub bass, soft analog synth arpeggio, airy pads and subtle glassy ",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/music/music_bed_v3.mp3",
+   "source": "ElevenLabs eleven_music_v2_5",
+   "generation_id": "ZA2Dm1bWeOd25O109MDu",
+   "prompt": "Premium minimal electronic cinematic instrumental at 100 BPM for a luxury smart-home technology ad: tight muted kick pulse, deep warm sub bass, soft analog synth arpeggio, airy pads and subtle glassy ",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/music/music_bed_v4.mp3",
+   "source": "ElevenLabs eleven_music_v2_5",
+   "generation_id": "ozwAjcjt1i9LzP0TdxXW",
+   "prompt": "Premium minimal electronic cinematic instrumental at 100 BPM for a luxury smart-home technology ad: tight muted kick pulse, deep warm sub bass, soft analog synth arpeggio, airy pads and subtle glassy ",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/impact_v1.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "MLC2O552qTFKqH5C9O4f",
+   "prompt": "Deep cinematic low impact, warm sub boom with a short tight tail, clean, no distortion",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/impact_v2.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "SX8fW8i58RPQ4d5nU0Lo",
+   "prompt": "Deep cinematic low impact, warm sub boom with a short tight tail, clean, no distortion",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/impact_v3.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "5RpNTkLfgKknJgpW6Zbw",
+   "prompt": "Deep cinematic low impact, warm sub boom with a short tight tail, clean, no distortion",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/impact_v4.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "RLXmHrp9meqifIIKkbry",
+   "prompt": "Deep cinematic low impact, warm sub boom with a short tight tail, clean, no distortion",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/whoosh_v1.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "vg0SnnA7YnP0hVrZTGHB",
+   "prompt": "Smooth airy whoosh transition, soft and premium, fast swell and quick fade",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/whoosh_v2.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "xghS62TzRGuYku6nK5jz",
+   "prompt": "Smooth airy whoosh transition, soft and premium, fast swell and quick fade",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/whoosh_v3.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "FVAZbNWonaGPNw2BhiQh",
+   "prompt": "Smooth airy whoosh transition, soft and premium, fast swell and quick fade",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/whoosh_v4.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "S1MGkkJvmeRFpWGepkqj",
+   "prompt": "Smooth airy whoosh transition, soft and premium, fast swell and quick fade",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/ui_click_v1.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "v3MAwat0rwmvYeEmUhLe",
+   "prompt": "Soft glassy user interface click, subtle, high-end touch panel tap",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/ui_click_v2.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "Opj1pj2qlCSFhOFPFjvJ",
+   "prompt": "Soft glassy user interface click, subtle, high-end touch panel tap",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/ui_click_v3.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "aBnBYawjNXGqtiyW9aWN",
+   "prompt": "Soft glassy user interface click, subtle, high-end touch panel tap",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/ui_click_v4.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "WEak5zm7w2BiR7HDcPaE",
+   "prompt": "Soft glassy user interface click, subtle, high-end touch panel tap",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/confirm_v1.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "TQVdzkltyLlx3oYyg54D",
+   "prompt": "Gentle two-note confirmation chime, soft bell tone, warm and premium smart home interface",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/confirm_v2.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "UJjogvKrkAPv6DDtKDLx",
+   "prompt": "Gentle two-note confirmation chime, soft bell tone, warm and premium smart home interface",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/confirm_v3.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "5YD9er8Spw1WdgzBgunM",
+   "prompt": "Gentle two-note confirmation chime, soft bell tone, warm and premium smart home interface",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/confirm_v4.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "ORnrJJwQCipIgTX8HuBI",
+   "prompt": "Gentle two-note confirmation chime, soft bell tone, warm and premium smart home interface",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/listen_v1.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "NS9V28BAk3Q4VwKo18Yt",
+   "prompt": "Soft rising listening tone, airy digital shimmer, subtle voice assistant wake cue",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/listen_v2.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "KM2vuwbsfAdoCfmUjJ8L",
+   "prompt": "Soft rising listening tone, airy digital shimmer, subtle voice assistant wake cue",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/listen_v3.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "8NITPdH6If0YMkaqLuAu",
+   "prompt": "Soft rising listening tone, airy digital shimmer, subtle voice assistant wake cue",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/listen_v4.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "dxTjq9LqelQRYKSDTdXT",
+   "prompt": "Soft rising listening tone, airy digital shimmer, subtle voice assistant wake cue",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/brand_hit_v1.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "u1jJq0mtkSio1nj0zt2Y",
+   "prompt": "Clean deep logo impact with a shimmering reverb tail, elegant brand reveal, cinematic",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/brand_hit_v2.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "0UVdKMf04F0QBiqKpl28",
+   "prompt": "Clean deep logo impact with a shimmering reverb tail, elegant brand reveal, cinematic",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/brand_hit_v3.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "GDBoSP6lOnaDm8ws79a2",
+   "prompt": "Clean deep logo impact with a shimmering reverb tail, elegant brand reveal, cinematic",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/brand_hit_v4.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "x6GFcTIPoBEoZWDSBf7i",
+   "prompt": "Clean deep logo impact with a shimmering reverb tail, elegant brand reveal, cinematic",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/swell_v1.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "RqgBG3RYyPDsA5bxjbwi",
+   "prompt": "Warm cinematic swell accent, soft low tone blooming then fading, lights dimming feeling",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/swell_v2.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "ycAJ51BOWkHE0xLQebAJ",
+   "prompt": "Warm cinematic swell accent, soft low tone blooming then fading, lights dimming feeling",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/swell_v3.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "P6nd6NKe2oZgRoZztPL0",
+   "prompt": "Warm cinematic swell accent, soft low tone blooming then fading, lights dimming feeling",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/sfx/swell_v4.mp3",
+   "source": "ElevenLabs eleven_text_to_sound_v2",
+   "generation_id": "zfRh2dul4m7x2ZTtrUJ2",
+   "prompt": "Warm cinematic swell accent, soft low tone blooming then fading, lights dimming feeling",
+   "license": "ElevenLabs generated, user account (commercial use per plan)"
+  },
+  {
+   "path": "assets/logos/trim/octonics_wordmark_reverse.png",
+   "source": "trimmed from client 'Octonics Logo with Wordmark HiRes - Reverse.png'",
+   "license": "client-owned"
+  },
+  {
+   "path": "models/blaze_face_short_range.tflite",
+   "source": "storage.googleapis.com/mediapipe-models",
+   "license": "Apache-2.0"
+  },
+  {
+   "path": "models/selfie_multiclass_256x256.tflite",
+   "source": "storage.googleapis.com/mediapipe-models",
+   "license": "Apache-2.0"
+  }
+ ],
+ "selected_audio": {
+  "music": "music_bed_v1",
+  "impact": "impact_v1",
+  "whoosh": "whoosh_v3",
+  "click": "ui_click_v3",
+  "confirm": "confirm_v1",
+  "listen": "listen_v3",
+  "swell": "swell_v3",
+  "brand": "brand_hit_v4"
+ }
 }
