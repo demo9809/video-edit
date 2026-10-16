@@ -284,6 +284,17 @@
    "path": "models/selfie_multiclass_256x256.tflite",
    "source": "storage.googleapis.com/mediapipe-models",
    "license": "Apache-2.0"
+  },
+  {
+   "path": "assets/fonts/InstrumentSerif-Italic.ttf",
+   "source": "https://github.com/google/fonts/tree/main/ofl/instrumentserif",
+   "author": "The Instrument Serif Project Authors",
+   "license": "SIL OFL 1.1 (assets/fonts/InstrumentSerif-OFL.txt)"
+  },
+  {
+   "path": "assets/fonts/InstrumentSerif-Regular.ttf",
+   "source": "https://github.com/google/fonts/tree/main/ofl/instrumentserif",
+   "license": "SIL OFL 1.1"
   }
  ],
  "selected_audio": {

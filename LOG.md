@@ -18,3 +18,9 @@
 - 2026-10-16 Built renderer; preview loops on 0-10, 10-20, 20-30, 30-39.3. Fixed: hook headline legibility, dark glass on real footage, panel over face, plan/caption overlap, caption spill across cuts, room set detail, final slams over head, plan-to-room ghosting.
 - 2026-10-16 Audio mix: dialogue chain (HPF, afftdn, de-ess, comp, presence EQ), music ducked (sidechain), 21 SFX events, 2-pass loudnorm -> -14.0 LUFS / -1.5 dBTP.
 - 2026-10-16 Rendered renders/previews/preview_v1.mp4 (540x960) + 5 full-res style frames.
+- 2026-10-16 User feedback on preview_v1: text over face, cutout unprofessional, remove top text, viral mixed serif/sans captions, KNX logo needs white bg. Final render requested next (no more low-res approval).
+- 2026-10-16 Matte v3 (soft key + guided filter + edge colour bleed, removed hard component clip and rim light). Re-rendered all 1104 fg frames.
+- 2026-10-16 Reframed hook (z 1.78-1.98, eye .37), final (1.85-2.02, eye .38), mid shots dx -0.19, blue CU z 1.72.
+- 2026-10-16 face_out.py: MediaPipe on output frames, CLAHE retry for coloured light, size checks vs source track, outlier shot rejection. 1102/1104 frames detected.
+- 2026-10-16 Added Instrument Serif Italic (OFL) from google/fonts GitHub. New caption system + face-aware placement. Debug sheets verified no overlay on face across 0-39.3 s.
+- 2026-10-16 Final render started: renders/final/octonics_knx_reel_v1.mp4 (crf 16, slow).

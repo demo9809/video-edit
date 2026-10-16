@@ -27,7 +27,7 @@ page.on('console', m => { if (m.type() === 'error') console.error('[page]', m.te
 page.on('pageerror', e => console.error('[pageerror]', e.message));
 await page.goto(`http://127.0.0.1:${port}/src/index.html`);
 await page.waitForFunction(() => window.__ready);
-const info = await page.evaluate(s => window.__init(s), scale);
+const info = await page.evaluate(([s, d]) => window.__init(s, d), [scale, !!args.debug]);
 const outFps = 30; // timeline is 30 fps; --fps < 30 skips frames for previews
 const f0 = Math.max(0, Math.round((+args.from || 0) * outFps));
 const f1 = Math.min(info.n - 1, Math.round((args.to != null ? +args.to : info.n / outFps) * outFps) - 1);

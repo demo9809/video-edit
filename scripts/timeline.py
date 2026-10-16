@@ -67,3 +67,28 @@ tl["marks"] = marks
 json.dump(tl, open("cache/timeline.json", "w"))
 print("caption groups", len(groups)); print(json.dumps(marks))
 for g in groups: print(f'{g[0]["t0"]:6.2f} {" ".join(c["w"] for c in g)}')
+
+# ---- per-frame face box in OUTPUT coordinates (incl. hair above, chin below) ----
+import bisect
+W_, H_ = 1080, 1920
+allf = json.load(open("cache/faces.json")); ok = [f for f in allf if f["cx"]]
+ts = [f["t"] for f in ok]
+def face_at(t):
+    i = bisect.bisect_left(ts, t)
+    if i <= 0: return ok[0]
+    if i >= len(ok): return ok[-1]
+    a, b = ok[i - 1], ok[i]; u = (t - a["t"]) / max(b["t"] - a["t"], 1e-6)
+    if b["t"] - a["t"] > 1.0:  # long gap (detector lost the face): hold nearest
+        return a if u < 0.5 else b
+    return {k: a[k] + (b[k] - a[k]) * u for k in ("cx", "cy", "w")}
+tl = json.load(open("cache/timeline.json"))
+segd = {s["id"]: s for s in tl["segments"]}
+for fr in tl["frames"]:
+    if fr["mode"] == "card": fr["fbox"] = None; continue
+    s = segd[fr["seg"]]; c = s["cam"]; u = fr["u"]
+    z = c["z0"] + (c["z1"] - c["z0"]) * (u * u * (3 - 2 * u)); cw, ch = W_ / z, H_ / z
+    x = min(max(s["face"][0] - (0.5 + c["dx"]) * cw, 0), W_ - cw); y = min(max(s["face"][1] - c["eye"] * ch, 0), H_ - ch)
+    f = face_at(fr["src_t"]); fx, fy, fw = (f["cx"] - x) * z, (f["cy"] - y) * z, f["w"] * z
+    fr["fbox"] = [round(fx - 0.66 * fw), round(fy - 0.95 * fw), round(fx + 0.66 * fw), round(fy + 0.85 * fw)]
+json.dump(tl, open("cache/timeline.json", "w"))
+print("face boxes added")

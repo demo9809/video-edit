@@ -37,44 +37,55 @@ class Matter:
                                              data=cv2.cvtColor(img, cv2.COLOR_BGR2RGB)))
         person = 1.0 - cv2.resize(res.confidence_masks[0].numpy_view(), (w, h), interpolation=cv2.INTER_LINEAR)
         hard = (person > 0.5).astype(np.uint8)
-        inner = cv2.erode(hard, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (31, 31)))
-        outer = cv2.dilate(hard, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (41, 41)))
-        # wall plate: normalised blur of pixels that are surely background, at 1/8 res
+        inner = cv2.erode(hard, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (25, 25)))
+        outer = cv2.dilate(hard, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (51, 51)))
+        imgf = img.astype(np.float32)
+        # clean wall plate from pixels that are surely background (normalised blur at 1/8 res)
         s = 8
-        small = cv2.resize(img, (w // s, h // s), interpolation=cv2.INTER_AREA).astype(np.float32)
+        small = cv2.resize(imgf, (w // s, h // s), interpolation=cv2.INTER_AREA)
         bgm = cv2.resize((1 - outer).astype(np.float32), (w // s, h // s), interpolation=cv2.INTER_AREA)
-        num = cv2.GaussianBlur(small * bgm[..., None], (0, 0), 12)
-        den = cv2.GaussianBlur(bgm, (0, 0), 12)[..., None] + 1e-4
+        num = cv2.GaussianBlur(small * bgm[..., None], (0, 0), 10)
+        den = cv2.GaussianBlur(bgm, (0, 0), 10)[..., None] + 1e-4
         plate = cv2.resize(num / den, (w, h), interpolation=cv2.INTER_LINEAR)
-        # colour-difference key against the plate
-        d = np.linalg.norm(img.astype(np.float32) - plate, axis=2)
-        key = np.clip((d - 14.0) / (52.0 - 14.0), 0, 1)
+        # key: colour distance and luminance drop against the plate (subject is darker than the wall)
+        lw = np.array([0.114, 0.587, 0.299], np.float32)
+        dl = plate @ lw - imgf @ lw
+        dc = np.linalg.norm(imgf - plate, axis=2)
+        d = np.maximum(dl * 1.15, dc)
+        key = np.clip((d - 9.0) / (62.0 - 9.0), 0, 1)
+        key = key * key * (3 - 2 * key)
         a = np.where(inner > 0, 1.0, np.where(outer > 0, key, 0.0)).astype(np.float32)
-        # drop the red chair where the person model is not confident
+        # the red chair is never the presenter
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-        red = ((hsv[..., 0] < 5) | (hsv[..., 0] > 170)) & (hsv[..., 1] > 110) & (person < 0.6)
+        red = ((hsv[..., 0] < 6) | (hsv[..., 0] > 168)) & (hsv[..., 1] > 100) & (person < 0.6)
         a[red] = 0
-        a = cv2.ximgproc.guidedFilter(img, a, 4, 1e-3)
-        a = np.clip((a - 0.04) / 0.92, 0, 1)
-        # keep only the presenter blob(s): drops specks, chair bits and wall gaps
+        # soft removal of far specks: keep the presenter blob(s) with a feathered halo
         n, lab, st, _ = cv2.connectedComponentsWithStats((a > 0.5).astype(np.uint8), 8)
         if n > 1:
             big = st[1:, cv2.CC_STAT_AREA].max()
             keep = np.isin(lab, [i for i in range(1, n) if st[i, cv2.CC_STAT_AREA] > 0.04 * big]).astype(np.uint8)
-            a *= cv2.dilate(keep, np.ones((7, 7), np.uint8)).astype(np.float32)
-        # light temporal smoothing, only in the uncertain band
+            soft = cv2.GaussianBlur(cv2.dilate(keep, np.ones((25, 25), np.uint8)).astype(np.float32), (0, 0), 6)
+            a *= np.clip(soft * 1.4, 0, 1)
+        # edge-aware refinement guided by the image
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY).astype(np.float32) / 255.0
+        a = np.clip(cv2.ximgproc.guidedFilter(gray, a, 3, 2e-4), 0, 1)
+        a[(inner > 0)] = 1.0
         if self.prev is not None and self.prev.shape == a.shape:
             band = (outer > 0) & (inner == 0)
-            a[band] = 0.7 * a[band] + 0.3 * self.prev[band]
+            a[band] = 0.75 * a[band] + 0.25 * self.prev[band]
         self.prev = a.copy()
-        # remove white spill from semi-transparent edges: F = (C - (1-a)B) / a
+        # colour: unmix the wall out of edge pixels, and bleed interior colour into low-alpha pixels
         af = a[..., None]
-        fg = (img.astype(np.float32) - (1 - af) * plate) / np.maximum(af, 0.15)
-        edge = (af > 0.01) & (af < 0.97)
-        out = np.where(edge, np.clip(fg, 0, 255), img.astype(np.float32)).astype(np.uint8)
-        # pull edge pixels slightly darker so no bright rim survives
-        out = np.where(edge, (out * (0.75 + 0.25 * af)).astype(np.uint8), out)
-        return out, a
+        core = (a > 0.97).astype(np.float32)
+        ext = cv2.GaussianBlur(imgf * core[..., None], (0, 0), 4) / (cv2.GaussianBlur(core, (0, 0), 4)[..., None] + 1e-4)
+        unmix = np.clip((imgf - (1 - af) * plate) / np.maximum(af, 0.05), 0, 255)
+        wgt = np.clip((af - 0.35) / 0.6, 0, 1)
+        edgecol = wgt * unmix + (1 - wgt) * ext
+        edge = af < 0.97
+        out = np.where(edge, np.minimum(edgecol, np.maximum(imgf, 0) + 0 * imgf), imgf)
+        out = np.where(edge, np.minimum(out, unmix + 18), out)  # never brighter than the unmixed colour
+        out = np.where(edge, np.minimum(out, ext + 14), out)  # edge never brighter than the body colour next to it
+        return np.clip(out, 0, 255).astype(np.uint8), a
 
 
 def crop_params(seg, u):

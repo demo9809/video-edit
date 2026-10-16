@@ -5,7 +5,7 @@ const C = {
   bg0: '#0A0E14', bg1: '#101A27', white: '#F4F7FA', brand: '#0072BC', acc: '#4FA8E8',
   warm: [255, 184, 107], cool: [214, 228, 246],
 };
-let S = 1, TL = null, IMG = {}, canvas, ctx, roomC, roomX, tmpC, tmpX, fgC, fgX, noise = [];
+let DEBUG = false, S = 1, TL = null, IMG = {}, canvas, ctx, roomC, roomX, tmpC, tmpX, fgC, fgX, noise = [];
 
 // ---------- utils ----------
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
@@ -35,7 +35,7 @@ function buildCues() {
     planToRoom: [27.75, 28.3],
     montage1: [M.smarter - 0.62, M.easy - 0.12],
     montage2: [M.comfortable - 0.32, 34.2],
-    noCaps: [[0, 1.95], [4.7, 10.3], [12.2, 12.8], [34.2, 37]],
+    noCaps: [[M.twenty - 0.05, 10.3], [12.2, 12.8], [36.8, 40]],
   };
 }
 const inR = (t, r) => t >= r[0] && t < r[1];
@@ -178,14 +178,6 @@ function drawPresenter(c, img, mode, t, seg) {
     c.save(); c.globalAlpha = 0.55; c.filter = blur(40); c.drawImage(fgC, 18, 26); c.restore();
   }
   c.drawImage(img, 0, 0, sw, sh, 0, 0, W, H);
-  if (mode === 'matte') {
-    // cool rim from upper right: silhouette minus offset silhouette
-    fgX.clearRect(0, 0, W, H); fgX.drawImage(img, 0, 0, W, H);
-    fgX.globalCompositeOperation = 'source-in'; fgX.fillStyle = 'rgb(190,215,255)'; fgX.fillRect(0, 0, W, H);
-    fgX.globalCompositeOperation = 'destination-out'; fgX.drawImage(img, -7, 5, W, H);
-    fgX.globalCompositeOperation = 'source-over';
-    c.save(); c.globalCompositeOperation = 'screen'; c.globalAlpha = 0.32; c.filter = blur(2); c.drawImage(fgC, 0, 0); c.restore();
-  }
 }
 
 // ---------- glass + UI ----------
@@ -230,197 +222,237 @@ function toggle(c, x, y, on, a = 1) {
 function featureCard(c, x, y, w, h, kind, title, value, level, a, sc = 1) {
   if (a <= 0) return;
   c.save(); c.translate(x + w / 2, y + h / 2); c.scale(sc, sc); c.translate(-w / 2, -h / 2);
-  glass(c, 0, 0, w, h, 28, { alpha: a });
+  glass(c, 0, 0, w, h, 26, { alpha: a, dark: true });
   c.globalAlpha = a;
-  rr(c, 24, 24, 64, 64, 18); c.fillStyle = 'rgba(0,114,188,0.35)'; c.fill();
-  icon(c, kind, 32, 32, 48, C.white);
-  font(c, 600, 26); c.fillStyle = 'rgba(244,247,250,0.72)'; c.fillText(title, 108, 50);
-  font(c, 800, 40); c.fillStyle = C.white; c.fillText(value, 108, 92);
+  rr(c, 18, 20, 52, 52, 16); c.fillStyle = 'rgba(0,114,188,0.45)'; c.fill();
+  icon(c, kind, 24, 26, 40, C.white);
+  font(c, 600, 21); c.letterSpacing = '1px'; c.fillStyle = 'rgba(244,247,250,0.72)'; c.fillText(title, 84, 42);
+  font(c, 800, 30); c.letterSpacing = '0px'; c.fillStyle = C.white; c.fillText(value, 84, 76);
   if (level != null) {
-    rr(c, 24, h - 38, w - 48, 10, 5); c.fillStyle = 'rgba(255,255,255,0.14)'; c.fill();
-    rr(c, 24, h - 38, Math.max(10, (w - 48) * level), 10, 5);
-    const g = c.createLinearGradient(24, 0, w - 24, 0); g.addColorStop(0, C.brand); g.addColorStop(1, C.acc);
+    rr(c, 18, h - 32, w - 36, 9, 4.5); c.fillStyle = 'rgba(255,255,255,0.14)'; c.fill();
+    rr(c, 18, h - 32, Math.max(9, (w - 36) * level), 9, 4.5);
+    const g = c.createLinearGradient(18, 0, w - 18, 0); g.addColorStop(0, C.brand); g.addColorStop(1, C.acc);
     c.fillStyle = g; c.fill();
   }
   c.restore();
 }
 
-// ---------- typography ----------
-function title(c, text, cx, cy, size, t, t0, t1, o = {}) {
-  const a = win(t, t0, t1, 0.35, 0.22); if (a <= 0) return;
-  const u = eOutExpo(prog(t, t0, t0 + 0.45));
-  c.save(); font(c, o.weight || 800, size); c.letterSpacing = `${(o.track ?? -0.01) * size}px`;
-  c.textAlign = 'center'; c.textBaseline = 'alphabetic';
-  // mask reveal from baseline
-  const tw = c.measureText(text).width;
-  c.beginPath(); c.rect(cx - tw / 2 - 40, cy - size * 1.05, tw + 80, size * 1.3); c.clip();
-  c.translate(0, (1 - u) * size * 0.9);
-  c.globalAlpha = a;
-  c.shadowColor = 'rgba(0,0,0,0.55)'; c.shadowBlur = 24 * S; c.shadowOffsetY = 6 * S;
-  if (o.parts) { // colored parts: [[text,color],...]
-    let x = cx - tw / 2; c.textAlign = 'left';
-    for (const [s, col] of o.parts) { c.fillStyle = col; c.fillText(s, x, cy); x += c.measureText(s).width; }
-  } else { c.fillStyle = o.color || C.white; c.fillText(text, cx, cy); }
-  c.restore();
+// ---------- face-aware placement ----------
+const PLACE = {};
+function faceUnion(t0, t1) {
+  let b = null;
+  for (let i = Math.max(0, Math.floor(t0 * FPS)); i <= Math.min(TL.n - 1, Math.ceil(t1 * FPS)); i++) {
+    const f = TL.frames[i].fbox; if (!f) continue;
+    b = b ? [Math.min(b[0], f[0]), Math.min(b[1], f[1]), Math.max(b[2], f[2]), Math.max(b[3], f[3])] : f.slice();
+  }
+  return b;
 }
-const KEY = new Set(['dream', 'home?', 'smart', 'knx', 'knx.', 'intelligent', 'truly', 'phone.', 'advanced', 'lighting,', 'ac', 'curtains,', 'single', 'simple', 'application.', 'wiring,', 'planning', 'day', 'one', 'smarter,', 'easy', 'comfortable.', 'octonics.', 'system.', 'automation']);
+const overlaps = (r, b, m = 26) => b && r.x < b[2] + m && r.x + r.w > b[0] - m && r.y < b[3] + m && r.y + r.h > b[1] - m;
+// first candidate that keeps clear of the face (and inside the Instagram safe area) wins
+function place(key, w, h, t0, t1, cands, maxY = 1500) {
+  if (PLACE[key]) return PLACE[key];
+  const b = faceUnion(t0, t1);
+  for (const cf of cands) {
+    const [x, y] = cf(b), r = { x, y, w, h };
+    if (y < 230 || y + h > maxY || x < 30 || x + w > 1050) continue;
+    if (!overlaps(r, b)) return (PLACE[key] = r);
+  }
+  console.error('place fallback', key, JSON.stringify(b));
+  return (PLACE[key] = { x: W / 2 - w / 2, y: b ? Math.min(b[3] + 30, maxY - h) : 1100, w, h });
+}
+const below = (w, gap = 34) => b => [W / 2 - w / 2, b[3] + gap];
+const above = (h, gap = 30) => b => [W / 2 - 0, b[1] - h - gap];
+const rightOf = (gap = 30, y = 380) => b => [b[2] + gap, y];
+const leftOf = (w, gap = 30, y = 380) => b => [b[0] - gap - w, y];
+
+// ---------- captions: bold sans + serif italic accents ----------
+const KEY = new Set(['dream', 'home?', 'smart', 'smart?', 'alexa', 'light', 'intelligent', 'knx', 'truly', 'phone', 'advanced', 'lighting',
+  'ac', 'curtains', 'single', 'simple', 'application', 'electrical', 'wiring', 'planning', 'day', 'one', 'smarter', 'easy', 'comfortable', 'octonics']);
+const SANS = 62, SERIF = 104;
+const clean = s => s.replace(/[.,]+$/, '');
+let CAPS = null;
+function prepCaptions(c) {
+  CAPS = TL.captions.map((g, gi) => {
+    const words = g.words.map(w => {
+      const txt = clean(w.w), k = KEY.has(txt.toLowerCase());
+      c.font = k ? `italic 400 ${SERIF}px "Instrument Serif"` : `800 ${SANS}px Inter`;
+      c.letterSpacing = k ? '0px' : '-1px';
+      return { ...w, txt, k, wd: c.measureText(txt).width };
+    });
+    const sp = 18, maxW = 900;
+    // greedy wrap, then balance into at most 2 lines
+    const total = words.reduce((s, w) => s + w.wd, 0) + sp * (words.length - 1);
+    let lines = [words];
+    if (total > maxW && words.length > 1) {
+      let best = null;
+      for (let k = 1; k < words.length; k++) {
+        const a = words.slice(0, k), b2 = words.slice(k);
+        const wa = a.reduce((s, w) => s + w.wd, 0) + sp * (a.length - 1), wb = b2.reduce((s, w) => s + w.wd, 0) + sp * (b2.length - 1);
+        const sc = Math.max(wa, wb); if (!best || sc < best.sc) best = { sc, l: [a, b2] };
+      }
+      lines = best.l;
+    }
+    const L = lines.map(l => ({ words: l, w: l.reduce((s, w) => s + w.wd, 0) + sp * (l.length - 1), h: l.some(w => w.k) ? SERIF * 0.92 : SANS * 1.05 }));
+    const blockH = L.reduce((s, l) => s + l.h, 0) + 8 * (L.length - 1);
+    const fit = Math.min(1, 940 / Math.max(...L.map(l => l.w)));
+    return { ...g, lines: L, blockH, fit, sp, gi };
+  });
+}
 function captions(c, t) {
   for (const r of CUE.noCaps) if (t >= r[0] && t < r[1]) return;
-  const g = TL.captions.find(g => t >= g.t0 - 0.05 && t < g.t1 + 0.3); if (!g) return;
+  const g = CAPS.find(g => t >= g.t0 - 0.05 && t < g.t1 + 0.32); if (!g) return;
   const gs = TL.segments.find(s => s.id === g.words[0].seg); if (t >= gs.out[1]) return;
-  const out = 1 - prog(t, g.t1 + 0.15, g.t1 + 0.3);
-  const size = 66, y = 1360;
-  c.save(); font(c, 800, size); c.letterSpacing = '-0.5px'; c.textBaseline = 'alphabetic';
-  const words = g.words.map(w => ({ ...w, wd: c.measureText(w.w + ' ').width }));
-  const total = words.reduce((s, w) => s + w.wd, 0) - c.measureText(' ').width;
-  // soft backing for legibility
-  c.save(); c.globalAlpha = 0.5 * out; const bg = c.createRadialGradient(W / 2, y - 22, 10, W / 2, y - 22, total * 0.7 + 60);
-  bg.addColorStop(0, 'rgba(6,9,14,0.75)'); bg.addColorStop(1, 'rgba(6,9,14,0)'); c.fillStyle = bg;
-  c.fillRect(W / 2 - total, y - 140, total * 2, 220); c.restore();
-  let x = W / 2 - total / 2;
-  for (const w of words) {
-    const u = eOut(prog(t, w.t0 - 0.06, w.t0 + 0.16));
-    if (u > 0) {
-      c.save(); c.globalAlpha = u * out;
-      c.filter = blur((1 - u) * 10);
-      const k = KEY.has(w.w.toLowerCase());
-      c.fillStyle = k ? C.acc : C.white;
-      c.shadowColor = 'rgba(0,0,0,0.6)'; c.shadowBlur = 16 * S; c.shadowOffsetY = 4 * S;
-      c.translate(0, (1 - u) * 18);
-      c.fillText(w.w, x, y); c.restore();
+  const out = 1 - eOut(prog(t, g.t1 + 0.18, g.t1 + 0.32));
+  // keep the whole block below the face for the group's duration
+  const b = faceUnion(g.t0, g.t1 + 0.3);
+  let sc = g.fit, bottom = 1488;
+  if (b) { const room = bottom - (b[3] + 22); if (g.blockH * sc > room) sc = Math.max(0.62, room / g.blockH); }
+  const top = bottom - g.blockH * sc;
+  c.save(); c.textBaseline = 'alphabetic';
+  // soft dark backing for legibility
+  c.save(); c.globalAlpha = 0.55 * out * clamp(prog(t, g.t0 - 0.05, g.t0 + 0.1));
+  const bg = c.createRadialGradient(W / 2, top + g.blockH * sc / 2, 10, W / 2, top + g.blockH * sc / 2, 560);
+  bg.addColorStop(0, 'rgba(5,8,13,0.7)'); bg.addColorStop(1, 'rgba(5,8,13,0)'); c.fillStyle = bg; c.fillRect(0, top - 160, W, g.blockH * sc + 320); c.restore();
+  let y = top;
+  g.lines.forEach(line => {
+    y += line.h * sc; let x = W / 2 - line.w * sc / 2;
+    for (const w of line.words) {
+      const u = prog(t, w.t0 - 0.05, w.t0 + 0.2);
+      if (u > 0) {
+        const active = t >= w.t0 - 0.02 && t < w.t1 + 0.06 && !w.k;
+        c.save(); c.globalAlpha = out * clamp(u * 1.6);
+        if (w.k) {
+          const e = eOutExpo(u);
+          c.translate(x + w.wd * sc / 2, y + (1 - e) * 36 * sc); c.scale(sc, sc);
+          c.filter = blur((1 - e) * 10);
+          c.font = `italic 400 ${SERIF}px "Instrument Serif"`; c.letterSpacing = '0px';
+          const gr = c.createLinearGradient(0, -SERIF * 0.8, 0, 0); gr.addColorStop(0, '#FFFFFF'); gr.addColorStop(1, '#9FD2FF');
+          c.shadowColor = 'rgba(79,168,232,0.55)'; c.shadowBlur = 26 * S;
+          c.fillStyle = gr; c.textAlign = 'center'; c.fillText(w.txt, 0, 0);
+        } else {
+          const e = eBack(clamp(u * 1.15));
+          c.translate(x + w.wd * sc / 2, y - SANS * 0.35 * sc); c.scale(sc * lerp(0.6, 1, e), sc * lerp(0.6, 1, e)); c.translate(0, SANS * 0.35);
+          c.filter = blur((1 - clamp(u * 1.3)) * 8);
+          c.font = `800 ${SANS}px Inter`; c.letterSpacing = '-1px'; c.textAlign = 'center';
+          if (active) { // brand-blue word box on the spoken word
+            const pa = eOut(prog(t, w.t0 - 0.02, w.t0 + 0.08));
+            rr(c, -w.wd / 2 - 14, -SANS * 0.86, w.wd + 28, SANS * 1.12, 16); c.fillStyle = `rgba(0,114,188,${0.95 * pa})`; c.fill();
+          }
+          c.shadowColor = 'rgba(0,0,0,0.6)'; c.shadowBlur = 14 * S; c.shadowOffsetY = 3 * S;
+          c.fillStyle = C.white; c.fillText(w.txt, 0, 0);
+        }
+        c.restore();
+      }
+      x += (w.wd + g.sp) * sc;
     }
-    x += w.wd;
-  }
+    y += 8 * sc;
+  });
   c.restore();
 }
 
-// ---------- scene pieces ----------
-function hook(c, t) {
-  // headline behind subject is drawn in behindText(); supporting line here
-  if (t >= 1.95) return;
-  title(c, 'BUILDING YOUR', W / 2, 340, 84, t, 0.3, 1.95, { track: -0.02 });
-  title(c, 'DREAM HOME?', W / 2, 466, 124, t, 0.42, 1.95, { parts: [['DREAM ', C.acc], ['HOME?', C.white]], track: -0.02 });
-  title(c, 'PLAN YOUR SMART HOME BEFORE THE WIRING.', W / 2, 540, 32, t, 0.95, 1.95, { weight: 600, track: 0.06, color: 'rgba(244,247,250,0.9)' });
-}
-function behindText(c, t) {}
+// ---------- scene pieces (no top titles; everything clears the face) ----------
 function alexa(c, t) {
-  const a = win(t, M.hey_alexa - 0.1, 7.53, 0.3, 0.15);
+  const t0 = M.hey_alexa - 0.1, t1 = 7.53, a = win(t, t0, t1, 0.3, 0.15);
   if (a > 0) {
-    const pw = 520, ph = 112, px = W / 2 - pw / 2, py = 300;
-    glass(c, px, py, pw, ph, 56, { alpha: a, dark: true });
+    const r = place('alexa', 300, 104, t0, t1, [b => [W / 2 - 150, b[1] - 134], b => [W / 2 - 150, b[3] + 30], leftOf(300, 24, 300), rightOf(24, 300)], 1290);
+    glass(c, r.x, r.y, r.w, r.h, 52, { alpha: a, dark: true });
     c.save(); c.globalAlpha = a;
-    // listening rings
-    for (let i = 0; i < 3; i++) {
-      const ph2 = ((t * 1.2 + i / 3) % 1);
-      c.beginPath(); c.arc(px + 58, py + 56, 26 + ph2 * 26, 0, Math.PI * 2);
-      c.strokeStyle = `rgba(79,168,232,${0.5 * (1 - ph2)})`; c.lineWidth = 2; c.stroke();
-    }
-    c.beginPath(); c.arc(px + 58, py + 56, 26, 0, Math.PI * 2); c.fillStyle = C.brand; c.fill();
-    icon(c, 'mic', px + 40, py + 38, 36, '#fff');
-    const s2 = prog(t, M.dim - 0.05, M.dim + 0.2);
-    font(c, 800, 40); c.letterSpacing = '1px'; c.textBaseline = 'middle';
-    c.globalAlpha = a * (1 - s2); c.fillStyle = C.white; c.fillText('HEY, ALEXA', px + 112, py + 58);
-    c.globalAlpha = a * s2; c.fillText('DIM THE LIGHT', px + 112, py + 58);
-    // tiny waveform
-    c.globalAlpha = a * 0.9;
-    for (let i = 0; i < 9; i++) { const hh = 6 + 18 * Math.abs(Math.sin(t * 9 + i * 1.3)) * (t < M.light + 0.3 ? 1 : 0.2); c.fillStyle = C.acc; rr(c, px + pw - 120 + i * 11, py + 56 - hh / 2, 5, hh, 2.5); c.fill(); }
+    const cx = r.x + 60, cy = r.y + r.h / 2;
+    for (let i = 0; i < 3; i++) { const ph = ((t * 1.2 + i / 3) % 1); c.beginPath(); c.arc(cx, cy, 26 + ph * 24, 0, Math.PI * 2); c.strokeStyle = `rgba(79,168,232,${0.5 * (1 - ph)})`; c.lineWidth = 2; c.stroke(); }
+    c.beginPath(); c.arc(cx, cy, 26, 0, Math.PI * 2); c.fillStyle = C.brand; c.fill();
+    icon(c, 'mic', cx - 18, cy - 18, 36, '#fff');
+    for (let i = 0; i < 12; i++) { const hh = 8 + 34 * Math.abs(Math.sin(t * 9 + i * 1.3)) * (t < M.light + 0.3 ? 1 : 0.18); c.fillStyle = i % 2 ? C.acc : '#fff'; rr(c, r.x + 116 + i * 14, cy - hh / 2, 6, hh, 3); c.fill(); }
     c.restore();
   }
-  // dimmer: 100 -> 20 on "twenty", locks, holds through slow-mo
-  const d = win(t, M.twenty - 0.12, 10.25, 0.3, 0.25);
+  const d0 = M.twenty - 0.12, d1 = 10.25, d = win(t, d0, d1, 0.3, 0.25);
   if (d > 0) {
+    const r = place('dimmer', 480, 236, d0, d1, [below(480, 30), b => [W / 2 - 240, b[1] - 266], leftOf(480), rightOf()]);
     const lv = lerp(1, 0.2, eInOut(prog(t, M.twenty, M.twenty + 0.75)));
-    const cw = 600, chh = 300, cx = W / 2 - cw / 2, cy = 250;
-    c.save(); c.translate(W / 2, cy + chh / 2); const sc = lerp(0.92, 1, eBack(prog(t, M.twenty - 0.12, M.twenty + 0.25))); c.scale(sc, sc); c.translate(-W / 2, -(cy + chh / 2));
-    glass(c, cx, cy, cw, chh, 36, { alpha: d, dark: true });
+    c.save(); c.translate(r.x + r.w / 2, r.y + r.h / 2); const sc = lerp(0.9, 1, eBack(prog(t, d0, M.twenty + 0.25))); c.scale(sc, sc); c.translate(-(r.x + r.w / 2), -(r.y + r.h / 2));
+    glass(c, r.x, r.y, r.w, r.h, 34, { alpha: d, dark: true });
     c.globalAlpha = d;
-    icon(c, 'bulb', cx + 34, cy + 34, 44, mix([214, 228, 246], C.warm, prog(t, 8.5, 10)).reduce((s, v, i) => s + (i ? ',' : '') + v, 'rgb(') + ')');
-    font(c, 600, 28); c.fillStyle = 'rgba(244,247,250,0.75)'; c.fillText('LIVING ROOM LIGHTS', cx + 96, cy + 66);
-    font(c, 800, 150); c.fillStyle = C.white; c.letterSpacing = '-4px';
-    c.fillText(`${Math.round(lv * 100)}%`, cx + 34, cy + 222);
-    rr(c, cx + 34, cy + 252, cw - 68, 14, 7); c.fillStyle = 'rgba(255,255,255,0.14)'; c.fill();
-    rr(c, cx + 34, cy + 252, (cw - 68) * lv, 14, 7); const g = c.createLinearGradient(cx, 0, cx + cw, 0);
-    g.addColorStop(0, rgba(C.warm, 1)); g.addColorStop(1, '#FFE2B8'); c.fillStyle = g; c.fill();
-    // lock tick
+    icon(c, 'bulb', r.x + 28, r.y + 26, 40, `rgb(${mix([214, 228, 246], C.warm, prog(t, 8.5, 10)).join(',')})`);
+    font(c, 600, 24); c.fillStyle = 'rgba(244,247,250,0.75)'; c.fillText('LIVING ROOM LIGHTS', r.x + 82, r.y + 56);
+    font(c, 800, 118); c.fillStyle = C.white; c.letterSpacing = '-3px'; c.fillText(`${Math.round(lv * 100)}%`, r.x + 28, r.y + 178);
+    rr(c, r.x + 28, r.y + 200, r.w - 56, 12, 6); c.fillStyle = 'rgba(255,255,255,0.14)'; c.fill();
+    rr(c, r.x + 28, r.y + 200, (r.w - 56) * lv, 12, 6); const g = c.createLinearGradient(r.x, 0, r.x + r.w, 0); g.addColorStop(0, rgba(C.warm, 1)); g.addColorStop(1, '#FFE2B8'); c.fillStyle = g; c.fill();
     const lk = eBack(prog(t, M.twenty + 0.78, M.twenty + 1.05));
-    if (lk > 0) { c.save(); c.translate(cx + cw - 70, cy + 70); c.scale(lk, lk); c.beginPath(); c.arc(0, 0, 26, 0, Math.PI * 2); c.fillStyle = C.brand; c.fill();
-      c.strokeStyle = '#fff'; c.lineWidth = 5; c.beginPath(); c.moveTo(-11, 1); c.lineTo(-3, 9); c.lineTo(12, -8); c.stroke(); c.restore(); }
+    if (lk > 0) { c.save(); c.translate(r.x + r.w - 56, r.y + 54); c.scale(lk, lk); c.beginPath(); c.arc(0, 0, 24, 0, Math.PI * 2); c.fillStyle = C.brand; c.fill(); c.strokeStyle = '#fff'; c.lineWidth = 5; c.beginPath(); c.moveTo(-10, 1); c.lineTo(-3, 8); c.lineTo(11, -7); c.stroke(); c.restore(); }
     c.restore();
   }
 }
 function knxLockup(c, t) {
-  const t0 = M.knx - 0.45, t1 = 12.8;
-  const a = win(t, t0, t1, 0.35, 0.12); if (a <= 0 || !IMG.knx) return;
-  const u = eOutExpo(prog(t, t0, t0 + 0.6));
-  const cw = 520, ch = 230, cx = W / 2 - cw / 2, cy = 270 + (1 - u) * 40;
-  glass(c, cx, cy, cw, ch, 34, { alpha: a, light: true });
-  const lw = 380, lh = lw * IMG.knx.naturalHeight / IMG.knx.naturalWidth;
-  c.save(); c.globalAlpha = a; c.drawImage(IMG.knx, W / 2 - lw / 2, cy + ch / 2 - lh / 2, lw, lh); c.restore();
-  title(c, 'SMART HOME AUTOMATION', W / 2, cy + ch + 74, 44, t, t0 + 0.15, t1, { track: 0.08, weight: 700 });
+  const t0 = M.knx - 0.45, t1 = 12.8, a = win(t, t0, t1, 0.3, 0.12); if (a <= 0 || !IMG.knx) return;
+  const r = place('knx', 380, 170, t0, t1, [below(380, 26), b => [W / 2 - 190, b[1] - 200], leftOf(380, 24, 300), rightOf(24, 300)], 1300);
+  const u = eOutExpo(prog(t, t0, t0 + 0.55));
+  c.save(); c.globalAlpha = a; c.translate(r.x + r.w / 2, r.y + r.h / 2 + (1 - u) * 30); c.scale(lerp(0.92, 1, u), lerp(0.92, 1, u));
+  c.shadowColor = 'rgba(0,0,0,0.45)'; c.shadowBlur = 40 * S; c.shadowOffsetY = 14 * S;
+  rr(c, -r.w / 2, -r.h / 2, r.w, r.h, 28); c.fillStyle = '#FFFFFF'; c.fill(); c.shadowColor = 'transparent';
+  const lw = r.w - 90, lh = lw * IMG.knx.naturalHeight / IMG.knx.naturalWidth;
+  c.drawImage(IMG.knx, -lw / 2, -lh / 2, lw, lh); c.restore();
 }
 function phoneUI(c, t) {
-  const t0 = M.not_just - 0.1, t1 = 16.84;
-  const a = win(t, t0, t1, 0.4, 0.25); if (a <= 0) return;
-  const u = eOutExpo(prog(t, t0, t0 + 0.7));
-  const pw = 360, ph = 720, px = 650 + (1 - u) * 260, py = 520;
-  c.save(); c.translate(px + pw / 2, py + ph / 2); c.transform(1, -0.05, 0, 1, 0, 0); c.rotate(-0.06 * (1 - u) + 0.03); c.translate(-pw / 2, -ph / 2);
-  glass(c, 0, 0, pw, ph, 54, { alpha: a });
-  c.globalAlpha = a;
-  rr(c, 14, 14, pw - 28, ph - 28, 42); c.fillStyle = 'rgba(8,12,18,0.72)'; c.fill();
-  rr(c, pw / 2 - 50, 26, 100, 22, 11); c.fillStyle = '#000'; c.fill();
-  font(c, 700, 30); c.fillStyle = C.white; c.fillText('Home', 40, 104);
-  font(c, 500, 20); c.fillStyle = 'rgba(244,247,250,0.6)'; c.fillText('Living room', 40, 134);
-  const rows = [['bulb', 'Lights', true], ['climate', 'Climate', true], ['curtain', 'Curtains', false], ['home', 'Scenes', true]];
-  rows.forEach(([k, n, on], i) => {
-    const ry = 170 + i * 118, ra = eOut(prog(t, t0 + 0.35 + i * 0.08, t0 + 0.7 + i * 0.08));
-    c.save(); c.globalAlpha = a * ra; rr(c, 30, ry, pw - 60, 100, 22); c.fillStyle = 'rgba(255,255,255,0.07)'; c.fill();
-    icon(c, k, 48, ry + 28, 44, C.white); font(c, 600, 26); c.fillStyle = C.white; c.fillText(n, 112, ry + 60);
-    toggle(c, pw - 120, ry + 32, on); c.restore();
+  const t0 = M.not_just - 0.1, t1 = 16.84, a = win(t, t0, t1, 0.4, 0.25); if (a <= 0) return;
+  const r = place('phone', 300, 600, t0, t1, [rightOf(26, 330), leftOf(300, 26, 330), rightOf(26, 260)], 1290);
+  const u = eOutExpo(prog(t, t0, t0 + 0.7)), pw = r.w, ph = r.h, s = pw / 360;
+  c.save(); c.translate(r.x + pw / 2 + (1 - u) * 220, r.y + ph / 2); c.rotate(-0.05 * (1 - u)); c.translate(-pw / 2, -ph / 2);
+  glass(c, 0, 0, pw, ph, 48, { alpha: a });
+  c.globalAlpha = a; c.scale(s, s);
+  rr(c, 14, 14, 332, ph / s - 28, 40); c.fillStyle = 'rgba(8,12,18,0.74)'; c.fill();
+  rr(c, 130, 26, 100, 22, 11); c.fillStyle = '#000'; c.fill();
+  font(c, 700, 32); c.fillStyle = C.white; c.fillText('Home', 40, 108);
+  font(c, 500, 22); c.fillStyle = 'rgba(244,247,250,0.6)'; c.fillText('Living room', 40, 140);
+  [['bulb', 'Lights', true], ['climate', 'Climate', true], ['curtain', 'Curtains', false], ['home', 'Scenes', true]].forEach(([k, n, on], i) => {
+    const ry = 176 + i * 122, ra = eOut(prog(t, t0 + 0.35 + i * 0.08, t0 + 0.7 + i * 0.08));
+    c.save(); c.globalAlpha = a * ra; rr(c, 30, ry, 300, 104, 22); c.fillStyle = 'rgba(255,255,255,0.07)'; c.fill();
+    icon(c, k, 46, ry + 30, 44, C.white); font(c, 600, 28); c.fillStyle = C.white; c.fillText(n, 108, ry + 62);
+    toggle(c, 248, ry + 34, on); c.restore();
   });
   c.restore();
-  title(c, 'MORE THAN PHONE CONTROL', W / 2, 330, 60, t, t0 + 0.3, t1, { track: 0.01 });
+}
+function sideColumn(t0, t1, h) {
+  const key = 'col_' + t0.toFixed(2); if (PLACE[key]) return PLACE[key];
+  const b = faceUnion(t0, t1), y = 360, m = 24;
+  let x = b[2] + m, w = Math.min(300, 1048 - x);
+  if (w < 230) { w = Math.min(300, b[0] - m - 30); x = b[0] - m - w; }
+  if (w < 230) { console.error('column fallback', key); w = 260; x = 1048 - w; }
+  return (PLACE[key] = { x, y, w, h });
 }
 function featureCards(c, t) {
-  const t1 = M.single - 0.85;      // cards leave for curtain insert
-  const conv0 = M.single - 0.85, conv1 = M.single + 0.2; // then converge into one panel
   const cards = [
     { k: 'bulb', n: 'LIGHTING', v: 'Warm 40%', lvl: 0.4, t0: M.ac - 0.05 },
-    { k: 'climate', n: 'CLIMATE', v: '22°C  Cool', lvl: 0.55, t0: M.ac + 0.05 },
+    { k: 'climate', n: 'CLIMATE', v: '22°C Cool', lvl: 0.55, t0: M.ac + 0.05 },
     { k: 'curtain', n: 'CURTAINS', v: 'Open 100%', lvl: 1, t0: M.curtains - 0.05 },
   ];
-  if (t >= cards[0].t0 && t < CUE.curtainInsert[0]) {
-    title(c, 'CLIMATE. CURTAINS. LIGHTING.', W / 2, 330, 56, t, M.ac, CUE.curtainInsert[0], { track: 0.01 });
+  const e0 = CUE.curtainInsert[0];
+  if (t >= cards[0].t0 && t < e0) {
+    const col = sideColumn(cards[0].t0, e0, 3 * 136 + 2 * 22);
     cards.forEach((cd, i) => {
-      const u = eBack(prog(t, cd.t0, cd.t0 + 0.4)), a = clamp(prog(t, cd.t0, cd.t0 + 0.2)) * (1 - prog(t, CUE.curtainInsert[0] - 0.12, CUE.curtainInsert[0]));
-      featureCard(c, 610, 470 + i * 196, 420, 170, cd.k, cd.n, cd.v, cd.lvl, a, lerp(0.85, 1, u));
+      const u = eBack(prog(t, cd.t0, cd.t0 + 0.4)), a = clamp(prog(t, cd.t0, cd.t0 + 0.2)) * (1 - prog(t, e0 - 0.12, e0));
+      featureCard(c, col.x, col.y + i * 158, col.w, 136, cd.k, cd.n, cd.v, cd.lvl, a, lerp(0.85, 1, u));
     });
   }
-  // unified panel
-  const ua = win(t, CUE.curtainInsert[1], 23.57, 0.3, 0.12);
+  const u0 = CUE.curtainInsert[1], u1 = 23.57, ua = win(t, u0, u1, 0.3, 0.12);
   if (ua > 0) {
-    const u = eOutExpo(prog(t, CUE.curtainInsert[1], conv1 + 0.2));
-    const pw = 450, ph = 500, px = 600, py = 470;
-    // cards fly from the right stack into the panel
-    glass(c, px, py, pw, ph, 40, { alpha: ua * u });
+    const col = sideColumn(u0, u1, 470), u = eOutExpo(prog(t, u0, u0 + 0.6));
+    glass(c, col.x, col.y, col.w, col.h, 34, { alpha: ua * u });
     c.save(); c.globalAlpha = ua;
+    const ha = eOut(prog(t, M.single - 0.2, M.single + 0.2));
+    icon(c, 'home', col.x + 24, col.y + 26, 42, C.acc);
+    c.globalAlpha = ua * Math.max(ha, u); font(c, 800, 30); c.fillStyle = C.white; c.fillText('ONE APP', col.x + 80, col.y + 58);
     cards.forEach((cd, i) => {
-      const sx = 610, sy = 470 + i * 196, ex = px + 30, ey = py + 120 + i * 128;
-      const uu = eInOut(prog(t, CUE.curtainInsert[1] + i * 0.06, conv1 + i * 0.06));
-      const x = lerp(sx, ex, uu), y = lerp(sy, ey, uu), w = lerp(420, pw - 60, uu), h = lerp(170, 108, uu);
-      rr(c, x, y, w, h, 22); c.fillStyle = `rgba(255,255,255,${lerp(0.10, 0.07, uu)})`; c.fill();
-      c.strokeStyle = 'rgba(255,255,255,0.18)'; c.lineWidth = 1.2; c.stroke();
-      icon(c, cd.k, x + 22, y + h / 2 - 22, 44, C.white);
-      font(c, 700, 25); c.fillStyle = C.white; c.textBaseline = 'middle'; c.fillText(cd.n, x + 80, y + h / 2);
-      font(c, 500, 21); c.fillStyle = 'rgba(244,247,250,0.7)'; c.textAlign = 'right'; c.fillText(cd.v, x + w - 26, y + h / 2); c.textAlign = 'left'; c.textBaseline = 'alphabetic';
+      const uu = eOut(prog(t, u0 + 0.1 + i * 0.08, u0 + 0.45 + i * 0.08)); if (uu <= 0) return;
+      const x = col.x + 18, y = col.y + 100 + i * 118 + (1 - uu) * 30, w = col.w - 36, h = 100;
+      c.globalAlpha = ua * uu; rr(c, x, y, w, h, 20); c.fillStyle = 'rgba(255,255,255,0.08)'; c.fill(); c.strokeStyle = 'rgba(255,255,255,0.16)'; c.lineWidth = 1.2; c.stroke();
+      icon(c, cd.k, x + 16, y + 28, 40, C.white);
+      font(c, 700, 23); c.fillStyle = C.white; c.fillText(cd.n, x + 68, y + 46);
+      font(c, 500, 20); c.fillStyle = 'rgba(244,247,250,0.7)'; c.fillText(cd.v, x + 68, y + 76);
+      if (w >= 260) toggle(c, x + w - 76, y + 32, true);
     });
-    const ha = eOut(prog(t, conv1 - 0.1, conv1 + 0.3));
-    c.globalAlpha = ua * ha; icon(c, 'home', px + 30, py + 34, 46, C.acc);
-    font(c, 800, 34); c.fillStyle = C.white; c.fillText('ONE APP', px + 92, py + 70);
-    font(c, 500, 22); c.fillStyle = 'rgba(244,247,250,0.6)'; c.textAlign = 'right'; c.fillText('All systems', px + pw - 30, py + 68); c.textAlign = 'left';
     c.restore();
-    title(c, 'ONE CONNECTED EXPERIENCE', W / 2, 330, 58, t, conv1 - 0.1, 23.57, { track: 0.01 });
   }
 }
+
 function floorPlan(c, t, a) {
   const [t0] = CUE.planFull; const lt = t - t0;
   c.save(); c.globalAlpha = a;
@@ -444,6 +476,8 @@ function floorPlan(c, t, a) {
   font(c, 500, 22); c.fillStyle = 'rgba(244,247,250,0.45)'; c.letterSpacing = '3px';
   c.globalAlpha = a * prog(lt, 1.0, 1.4);
   c.fillText('LIVING', 600, 1390); c.fillText('BEDROOM', 175, 670); c.fillText('KITCHEN', 600, 670); c.fillText('STUDY', 175, 1390);
+  c.save(); c.globalAlpha = a * prog(lt, 0.2, 0.6); font(c, 600, 20); c.letterSpacing = '4px'; c.fillStyle = 'rgba(244,247,250,0.5)';
+  c.fillText('CONCEPT ILLUSTRATION', 140, 596); c.restore();
   // control points pop in
   const pts = [[330, 760, 'bulb'], [760, 1240, 'bulb'], [760, 760, 'climate'], [910, 1300, 'curtain'], [300, 1200, 'bulb'], [600, 1060, 'home'], [460, 900, 'climate']];
   pts.forEach(([x, y, k], i) => {
@@ -463,22 +497,7 @@ function floorPlan(c, t, a) {
     c.stroke(); c.restore();
   }
   c.restore();
-  c.save(); c.globalAlpha = a * prog(lt, 0.2, 0.6); font(c, 600, 22); c.letterSpacing = '4px'; c.fillStyle = 'rgba(244,247,250,0.5)';
-  c.textAlign = 'center'; c.fillText('CONCEPT ILLUSTRATION', W / 2, 1450); c.restore();
-}
-function finalSlams(c, t) {
-  const lines = [['PLAN SMART.', M.plan], ['BUILD SMART.', M.build], ['CHOOSE OCTONICS.', M.choose]];
-  lines.forEach(([s, t0], i) => {
-    const a = win(t, t0 - 0.06, 36.8, 0.18, 0.1); if (a <= 0) return;
-    const u = eOutExpo(prog(t, t0 - 0.06, t0 + 0.3));
-    c.save(); font(c, 800, i === 2 ? 86 : 72); c.letterSpacing = '-1px'; c.textAlign = 'center';
-    c.globalAlpha = a; c.translate(W / 2, 300 + i * 100); c.scale(lerp(1.25, 1, u), lerp(1.25, 1, u)); c.filter = blur((1 - u) * 12);
-    c.shadowColor = 'rgba(0,0,0,0.6)'; c.shadowBlur = 24 * S;
-    if (i === 2) { const w1 = c.measureText('CHOOSE ').width, w2 = c.measureText('OCTONICS.').width, x0 = -(w1 + w2) / 2; c.textAlign = 'left';
-      c.fillStyle = C.white; c.fillText('CHOOSE ', x0, 0); c.fillStyle = C.acc; c.fillText('OCTONICS.', x0 + w1, 0); }
-    else { c.fillStyle = C.white; c.fillText(s, 0, 0); }
-    c.restore();
-  });
+
 }
 function endCard(c, t) {
   const lt = t - M.end;
@@ -542,8 +561,8 @@ function insertActive(t) {
 
 // ---------- frame ----------
 async function loadImg(src) { const im = new Image(); im.src = src; await im.decode(); return im; }
-export async function init(scale) {
-  S = scale;
+export async function init(scale, debug) {
+  S = scale; DEBUG = !!debug;
   TL = await (await fetch('/cache/timeline.json')).json(); buildCues();
   canvas = document.getElementById('c'); canvas.width = Math.round(W * S); canvas.height = Math.round(H * S);
   ctx = canvas.getContext('2d');
@@ -553,7 +572,11 @@ export async function init(scale) {
     for (let i = 0; i < d.data.length; i += 4) { const v = 128 + (r() - 0.5) * 200; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255; } nx.putImageData(d, 0, 0); noise.push(n); }
   IMG.wordmark = await loadImg('/assets/logos/trim/octonics_wordmark_reverse.png');
   IMG.knx = await loadImg('/assets/logos/KNX_logo.svg');
+  const ff = new FontFace('Instrument Serif', 'url(/assets/fonts/InstrumentSerif-Italic.ttf)', { style: 'italic', weight: '400' });
+  document.fonts.add(await ff.load());
   await document.fonts.load('800 64px Inter'); await document.fonts.load('600 32px Inter'); await document.fonts.load('500 32px Inter');
+  await document.fonts.load('italic 400 100px "Instrument Serif"');
+  prepCaptions(canvas.getContext('2d'));
   return { n: TL.n, fps: TL.fps };
 }
 export async function drawFrame(idx) {
@@ -570,7 +593,6 @@ export async function drawFrame(idx) {
     drawRoom(roomX, roomState(t));
     c.save(); c.filter = blur(9); c.drawImage(roomC, 0, 0); c.restore();
     c.fillStyle = 'rgba(6,9,14,0.28)'; c.fillRect(0, 0, W, H);
-    behindText(c, t);
   }
   drawPresenter(c, img, fr.mode, t, seg);
   c.restore();
@@ -581,12 +603,12 @@ export async function drawFrame(idx) {
     const a = Math.min(eOut(prog(t, CUE.planFull[0], CUE.planFull[0] + 0.25)), 1);
     if (t >= CUE.planToRoom[0]) { drawRoom(roomX, roomState(t)); c.drawImage(roomC, 0, 0); }
     floorPlan(c, t, a * (1 - eInOut(prog(t, CUE.planToRoom[0], CUE.planToRoom[1] - 0.1))));
-    title(c, 'PLAN BEFORE YOU WIRE', W / 2, 330, 72, t, CUE.planFull[0] + 0.15, 28.3, { parts: [['PLAN BEFORE YOU ', C.white], ['WIRE', C.acc]] });
   }
-  if (ins === 'lightInsert') { title(c, 'INTELLIGENT LIGHTING', W / 2, 330, 62, t, CUE.lightInsert[0], CUE.lightInsert[1]); featureCard(c, W / 2 - 230, 1500, 460, 170, 'bulb', 'LIVING ROOM', `Warm ${Math.round(lerp(100, 40, prog(t, ...CUE.lightInsert)))}%`, lerp(1, 0.4, prog(t, ...CUE.lightInsert)), eOut(prog(t, CUE.lightInsert[0], CUE.lightInsert[0] + 0.2))); }
-  if (ins === 'curtainInsert') { featureCard(c, W / 2 - 230, 1500, 460, 170, 'curtain', 'CURTAINS', `Open ${Math.round(100 * eInOut(prog(t, ...CUE.curtainInsert)))}%`, eInOut(prog(t, ...CUE.curtainInsert)), eOut(prog(t, CUE.curtainInsert[0], CUE.curtainInsert[0] + 0.2))); }
+  if (ins === 'lightInsert') { featureCard(c, W / 2 - 170, 300, 340, 136, 'bulb', 'LIVING ROOM', `Warm ${Math.round(lerp(100, 40, prog(t, ...CUE.lightInsert)))}%`, lerp(1, 0.4, prog(t, ...CUE.lightInsert)), eOut(prog(t, CUE.lightInsert[0], CUE.lightInsert[0] + 0.2))); }
+  if (ins === 'curtainInsert') { featureCard(c, W / 2 - 170, 300, 340, 136, 'curtain', 'CURTAINS', `Open ${Math.round(100 * eInOut(prog(t, ...CUE.curtainInsert)))}%`, eInOut(prog(t, ...CUE.curtainInsert)), eOut(prog(t, CUE.curtainInsert[0], CUE.curtainInsert[0] + 0.2))); }
   // overlays
-  hook(c, t); alexa(c, t); knxLockup(c, t); phoneUI(c, t); featureCards(c, t); finalSlams(c, t);
+  alexa(c, t); knxLockup(c, t); phoneUI(c, t); featureCards(c, t);
   captions(c, t);
   finish(c, t, fr);
+  if (DEBUG && fr.fbox) { c.strokeStyle = '#ff3b3b'; c.lineWidth = 4; const f = fr.fbox; c.strokeRect(f[0], f[1], f[2] - f[0], f[3] - f[1]); }
 }
