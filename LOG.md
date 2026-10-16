@@ -31,3 +31,4 @@
 - 2026-10-16 Satoshi (Fontshare, ITF FFL) added. scene.js v3: warm palette, line-art inserts, solid cards, new captions. v2 scene backed up at cache/scene_v2_backup.js.
 - 2026-10-16 ElevenLabs music 60 s x4 (~3600 credits). Picked warm_bed60_v1 by envelope (sparse intro, full from 18 s, resolves on end card).
 - 2026-10-16 Re-matted 1722 frames; face_out 1676/1722 detected; reframed "one umbrella" shot dx -0.19; phone width 270. Debug sheets 0-60 s: no overlay on face.
+- 2026-10-16 Final v2 rendered (572 s), audio remuxed -0.25 dB -> -14.2 LUFS / -1.6 dBTP. Word-coverage check: 160/160 words present. Delivered.
