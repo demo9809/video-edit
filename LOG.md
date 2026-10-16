@@ -26,3 +26,8 @@
 - 2026-10-16 Final render started: renders/final/octonics_knx_reel_v1.mp4 (crf 16, slow).
 - 2026-10-16 Final render v1 done (432 s). AAC encode pushed TP to -1.4; remuxed audio -0.25 dB -> -14.3 LUFS / -1.7 dBTP. QA passed. Delivered renders/final/octonics_knx_reel_v1.mp4.
 - Credits: music + SFX ElevenLabs (user account); fonts Inter + Instrument Serif (SIL OFL); logos client-supplied; MediaPipe models Apache-2.0; all visuals code-drawn, no stock, no AI image/video generation.
+- 2026-10-16 Client feedback on v1: missing dialogue (wants full final cut), no blue, must not feel AI-made.
+- 2026-10-16 build_edit.py: full-dialogue EDL, 26 segments, 60.0 s incl. 2.6 s end card. timeline marks re-anchored to source word times.
+- 2026-10-16 Satoshi (Fontshare, ITF FFL) added. scene.js v3: warm palette, line-art inserts, solid cards, new captions. v2 scene backed up at cache/scene_v2_backup.js.
+- 2026-10-16 ElevenLabs music 60 s x4 (~3600 credits). Picked warm_bed60_v1 by envelope (sparse intro, full from 18 s, resolves on end card).
+- 2026-10-16 Re-matted 1722 frames; face_out 1676/1722 detected; reframed "one umbrella" shot dx -0.19; phone width 270. Debug sheets 0-60 s: no overlay on face.

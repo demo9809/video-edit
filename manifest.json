@@ -295,10 +295,21 @@
    "path": "assets/fonts/InstrumentSerif-Regular.ttf",
    "source": "https://github.com/google/fonts/tree/main/ofl/instrumentserif",
    "license": "SIL OFL 1.1"
+  },
+  {
+   "path": "assets/fonts/Satoshi-*.ttf",
+   "source": "https://www.fontshare.com/fonts/satoshi (Indian Type Foundry)",
+   "license": "ITF Free Font License, commercial use allowed (assets/fonts/Satoshi-FFL.txt)"
+  },
+  {
+   "path": "assets/music/warm_bed60_v1..v4.mp3",
+   "source": "ElevenLabs eleven_music_v2_5 (flow rJwDM1R6J4IatLelW2dA)",
+   "license": "ElevenLabs generated, user account",
+   "use": "v1 in final v2"
   }
  ],
  "selected_audio": {
-  "music": "music_bed_v1",
+  "music": "warm_bed60_v1",
   "impact": "impact_v1",
   "whoosh": "whoosh_v3",
   "click": "ui_click_v3",

@@ -3,228 +3,454 @@
  "width": 1080,
  "height": 1920,
  "source": "assets/footage/Octonics_demo.mp4",
- "note": "Source times in seconds. Output start = running sum. speed<1 = slow motion (source is 120 fps).",
+ "note": "Auto-built by scripts/build_edit.py: full dialogue in order, silences > 0.34 s tightened, 'uh' removed.",
  "segments": [
   {
+   "src": [
+    0.29,
+    1.64
+   ],
+   "speed": 1,
+   "text": "Are you building your dream home?",
    "id": 1,
-   "src": [
-    0.3,
-    3.2
-   ],
-   "speed": 1,
-   "text": "Are you building your dream home? Then don't miss this.",
-   "frame": "CU 2.0x push",
-   "bg": "arch",
-   "cam": {
-    "z0": 1.78,
-    "z1": 1.98,
-    "eye": 0.37,
-    "dx": 0
-   },
-   "mode": "matte"
-  },
-  {
-   "id": 2,
-   "src": [
-    4.15,
-    5.95
-   ],
-   "speed": 1,
-   "text": "Do you wanna know how a smart system works?",
-   "frame": "MCU 1.7x",
+   "mode": "matte",
    "bg": "arch",
    "cam": {
     "z0": 1.7,
     "z1": 1.76,
-    "eye": 0.36,
+    "eye": 0.37,
     "dx": 0
-   },
-   "mode": "matte"
+   }
   },
   {
-   "id": 3,
    "src": [
-    6.62,
+    1.79,
+    2.18
+   ],
+   "speed": 1,
+   "text": "Then",
+   "id": 2,
+   "mode": "matte",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.95,
+    "z1": 2.02,
+    "eye": 0.38,
+    "dx": 0
+   }
+  },
+  {
+   "src": [
+    2.31,
+    3.28
+   ],
+   "speed": 1,
+   "text": "don't miss this.",
+   "id": 3,
+   "mode": "matte",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.7,
+    "z1": 1.76,
+    "eye": 0.37,
+    "dx": 0
+   }
+  },
+  {
+   "src": [
+    3.57,
+    6.04
+   ],
+   "speed": 1,
+   "text": "Hey, guys, do you wanna know how a smart system works?",
+   "id": 4,
+   "mode": "matte",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.95,
+    "z1": 2.02,
+    "eye": 0.38,
+    "dx": 0
+   }
+  },
+  {
+   "src": [
+    6.63,
     9.45
    ],
    "speed": 1,
    "text": "Hey, Alexa, dim the light.",
-   "frame": "MCU 1.6x -> 1.8x",
-   "bg": "REAL (lights change)",
+   "id": 5,
+   "mode": "real",
+   "bg": "REAL",
    "cam": {
-    "z0": 1.55,
-    "z1": 1.75,
+    "z0": 1.6,
+    "z1": 1.72,
     "eye": 0.4,
     "dx": 0
-   },
-   "mode": "real"
+   }
   },
   {
-   "id": 4,
    "src": [
     11.2,
     12.15
    ],
    "speed": 1,
    "text": "twenty percentage.",
-   "frame": "CU 2.0x",
+   "id": 6,
+   "mode": "real",
    "bg": "REAL",
    "cam": {
-    "z0": 1.72,
+    "z0": 1.74,
     "z1": 1.78,
     "eye": 0.38,
     "dx": 0
-   },
-   "mode": "real"
+   }
   },
   {
-   "id": 5,
    "src": [
     12.15,
-    13.05
+    13.0
    ],
-   "speed": 0.5,
+   "speed": 0.6,
    "text": "",
-   "frame": "MCU 1.6x slow-mo light warm-down",
+   "id": 7,
+   "mode": "real",
    "bg": "REAL",
    "cam": {
     "z0": 1.6,
-    "z1": 1.66,
+    "z1": 1.72,
     "eye": 0.4,
     "dx": 0
-   },
-   "mode": "real"
+   }
   },
   {
-   "id": 6,
    "src": [
-    43.05,
-    45.55
+    14.47,
+    18.9
    ],
    "speed": 1,
-   "text": "That's the intelligent home automation with KNX.",
-   "frame": "MCU 1.7x",
-   "bg": "arch",
-   "cam": {
-    "z0": 1.7,
-    "z1": 1.78,
-    "eye": 0.36,
-    "dx": 0
-   },
-   "mode": "matte"
-  },
-  {
-   "id": 7,
-   "src": [
-    30.6,
-    32.5
-   ],
-   "speed": 1,
-   "text": "What makes a home truly smart?",
-   "frame": "CU 2.0x",
-   "bg": "arch",
-   "cam": {
-    "z0": 2.0,
-    "z1": 2.12,
-    "eye": 0.38,
-    "dx": 0
-   },
-   "mode": "matte"
-  },
-  {
+   "text": "This is the right time to plan your home automation. With KNX, you can integrate lighting,",
    "id": 8,
-   "src": [
-    32.95,
-    35.1
-   ],
-   "speed": 1,
-   "text": "It's not just controlling your home from phone.",
-   "frame": "MCU 1.7x offset left",
+   "mode": "matte",
    "bg": "arch",
    "cam": {
     "z0": 1.7,
-    "z1": 1.74,
-    "eye": 0.36,
-    "dx": -0.19
-   },
-   "mode": "matte"
+    "z1": 1.76,
+    "eye": 0.37,
+    "dx": 0
+   }
   },
   {
+   "src": [
+    19.63,
+    20.6
+   ],
+   "speed": 1,
+   "text": "climate control,",
    "id": 9,
-   "src": [
-    35.62,
-    42.35
-   ],
-   "speed": 1,
-   "text": "It's having your advanced lighting, AC control, curtains, and every other systems in a single simple application.",
-   "frame": "MCU 1.7x offset left + B-roll inserts",
+   "mode": "matte",
    "bg": "arch",
    "cam": {
-    "z0": 1.74,
-    "z1": 1.82,
-    "eye": 0.36,
-    "dx": -0.19
-   },
-   "mode": "matte"
-  },
-  {
-   "id": 10,
-   "src": [
-    53.9,
-    58.65
-   ],
-   "speed": 1,
-   "text": "Before you start electrical wiring, consider KNX smart home automation system.",
-   "frame": "MCU 1.7x / floor plan",
-   "bg": "arch",
-   "cam": {
-    "z0": 1.7,
-    "z1": 1.8,
-    "eye": 0.36,
-    "dx": 0
-   },
-   "mode": "matte"
-  },
-  {
-   "id": 11,
-   "src": [
-    59.25,
-    65.15
-   ],
-   "speed": 1,
-   "text": "The right planning from day one can make your home smarter, easy to handle, and comfortable.",
-   "frame": "MCU 1.7x + montage",
-   "bg": "arch",
-   "cam": {
-    "z0": 1.7,
-    "z1": 1.82,
-    "eye": 0.36,
-    "dx": 0
-   },
-   "mode": "matte"
-  },
-  {
-   "id": 12,
-   "src": [
-    65.65,
-    68.26
-   ],
-   "speed": 1,
-   "text": "Plan smart, build smart, choose Octonics.",
-   "frame": "CU 2.0x",
-   "bg": "arch",
-   "cam": {
-    "z0": 1.85,
+    "z0": 1.95,
     "z1": 2.02,
     "eye": 0.38,
     "dx": 0
-   },
-   "mode": "matte"
+   }
   },
   {
+   "src": [
+    20.79,
+    26.34
+   ],
+   "speed": 1,
+   "text": "curtains, and more control under one umbrella and system. Talk to Ocktronix before you start your dream project.",
+   "id": 10,
+   "mode": "matte",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.7,
+    "z1": 1.76,
+    "eye": 0.37,
+    "dx": -0.19
+   }
+  },
+  {
+   "src": [
+    26.53,
+    27.24
+   ],
+   "speed": 1,
+   "text": "KNX",
+   "id": 11,
+   "mode": "matte",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.95,
+    "z1": 2.02,
+    "eye": 0.38,
+    "dx": 0
+   }
+  },
+  {
+   "src": [
+    27.39,
+    30.2
+   ],
+   "speed": 1,
+   "text": "smart wiring home automation. What are all those?",
+   "id": 12,
+   "mode": "matte",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.7,
+    "z1": 1.76,
+    "eye": 0.37,
+    "dx": 0
+   }
+  },
+  {
+   "src": [
+    30.61,
+    32.579
+   ],
+   "speed": 1,
+   "text": "What makes a home truly smart?",
    "id": 13,
+   "mode": "matte",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.95,
+    "z1": 2.02,
+    "eye": 0.38,
+    "dx": 0
+   }
+  },
+  {
+   "src": [
+    32.95,
+    35.16
+   ],
+   "speed": 1,
+   "text": "It's not just controlling your home from phone.",
+   "id": 14,
+   "mode": "matte",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.7,
+    "z1": 1.76,
+    "eye": 0.37,
+    "dx": -0.19
+   }
+  },
+  {
+   "src": [
+    35.63,
+    37.38
+   ],
+   "speed": 1,
+   "text": "It's having your advanced lighting,",
+   "id": 15,
+   "mode": "matte",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.7,
+    "z1": 1.76,
+    "eye": 0.37,
+    "dx": -0.19
+   }
+  },
+  {
+   "src": [
+    37.55,
+    42.42
+   ],
+   "speed": 1,
+   "text": "AC control, curtains, and every other systems in a single simple application.",
+   "id": 16,
+   "mode": "matte",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.8,
+    "z1": 1.86,
+    "eye": 0.37,
+    "dx": -0.19
+   }
+  },
+  {
+   "src": [
+    43.07,
+    48.36
+   ],
+   "speed": 1,
+   "text": "That's the intelligent home automation with KNX. For more information and to experience smart automation,",
+   "id": 17,
+   "mode": "matte",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.7,
+    "z1": 1.76,
+    "eye": 0.37,
+    "dx": 0
+   }
+  },
+  {
+   "src": [
+    48.55,
+    49.64
+   ],
+   "speed": 1,
+   "text": "connect with Ocktronix.",
+   "id": 18,
+   "mode": "matte",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.95,
+    "z1": 2.02,
+    "eye": 0.38,
+    "dx": 0
+   }
+  },
+  {
+   "src": [
+    50.73,
+    53.38
+   ],
+   "speed": 1,
+   "text": "KNX smart home automation system.",
+   "id": 19,
+   "mode": "matte",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.7,
+    "z1": 1.76,
+    "eye": 0.37,
+    "dx": 0
+   }
+  },
+  {
+   "src": [
+    53.89,
+    55.9
+   ],
+   "speed": 1,
+   "text": "Before you start electrical wiring,",
+   "id": 20,
+   "mode": "matte",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.95,
+    "z1": 2.02,
+    "eye": 0.38,
+    "dx": 0
+   }
+  },
+  {
+   "src": [
+    56.05,
+    58.7
+   ],
+   "speed": 1,
+   "text": "consider KNX smart home automation system.",
+   "id": 21,
+   "mode": "matte",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.7,
+    "z1": 1.76,
+    "eye": 0.37,
+    "dx": 0
+   }
+  },
+  {
+   "src": [
+    59.27,
+    62.14
+   ],
+   "speed": 1,
+   "text": "The right planning from day one can make your home",
+   "id": 22,
+   "mode": "matte",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.95,
+    "z1": 2.02,
+    "eye": 0.38,
+    "dx": 0
+   }
+  },
+  {
+   "src": [
+    62.29,
+    63.98
+   ],
+   "speed": 1,
+   "text": "smarter, easy to handle,",
+   "id": 23,
+   "mode": "matte",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.7,
+    "z1": 1.76,
+    "eye": 0.37,
+    "dx": 0
+   }
+  },
+  {
+   "src": [
+    64.13,
+    65.2
+   ],
+   "speed": 1,
+   "text": "and comfortable.",
+   "id": 24,
+   "mode": "matte",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.95,
+    "z1": 2.02,
+    "eye": 0.38,
+    "dx": 0
+   }
+  },
+  {
+   "src": [
+    65.65,
+    66.5
+   ],
+   "speed": 1,
+   "text": "Plan smart,",
+   "id": 25,
+   "mode": "matte",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.7,
+    "z1": 1.76,
+    "eye": 0.37,
+    "dx": 0
+   }
+  },
+  {
+   "src": [
+    66.65,
+    68.24
+   ],
+   "speed": 1,
+   "text": "build smart, choose Ocktronix.",
+   "id": 26,
+   "mode": "matte",
+   "bg": "arch",
+   "cam": {
+    "z0": 1.95,
+    "z1": 2.02,
+    "eye": 0.38,
+    "dx": 0
+   }
+  },
+  {
+   "id": 27,
    "card": "end",
-   "dur": 2.5
+   "dur": 2.6
   }
  ],
  "cam_note": "z = zoom (1 = full source frame). eye = face centre height as fraction of crop. dx = face offset from centre, fraction of width."

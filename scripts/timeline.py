@@ -47,20 +47,23 @@ for c in caps:
     cur.append(c)
     if c["w"][-1] in ",.?": groups.append(cur); cur = []
 if cur: groups.append(cur)
-def mark(word, seg, nth=0):
-    hits = [c for c in caps if c["seg"] == seg and c["w"].lower().strip(",.?") == word.lower()]
-    return hits[nth]["t0"]
-marks = {
-    "dream": mark("dream", 1), "miss": mark("miss", 1), "smart_system": mark("smart", 2),
-    "hey_alexa": mark("hey", 3), "dim": mark("dim", 3), "light": mark("light", 3), "twenty": mark("20%", 4),
-    "warm_start": segs[4]["out"][0], "intelligent": mark("intelligent", 6), "knx": mark("knx", 6),
-    "truly": mark("truly", 7), "phone": mark("phone", 8), "not_just": mark("not", 8),
-    "lighting": mark("lighting", 9), "ac": mark("ac", 9), "curtains": mark("curtains", 9), "every": mark("every", 9),
-    "single": mark("single", 9), "application": mark("application", 9),
-    "wiring": mark("wiring", 10), "consider": mark("consider", 10), "knx2": mark("knx", 10),
-    "planning": mark("planning", 11), "smarter": mark("smarter", 11), "easy": mark("easy", 11), "comfortable": mark("comfortable", 11),
-    "plan": mark("plan", 12), "build": mark("build", 12), "choose": mark("choose", 12), "octonics": mark("octonics", 12),
-    "end": segs[-1]["out"][0]}
+def src2out(t):
+    for s in segs:
+        if "src" in s and s["src"][0] - 1e-3 <= t <= s["src"][1] + 1e-3:
+            return round(s["out"][0] + (t - s["src"][0]) / s["speed"], 3)
+    raise ValueError(f"source time {t} not in edit")
+SRC_MARKS = {"dream": 1.0, "smart_system": 5.14, "hey_alexa": 6.72, "dim": 7.70, "light": 7.96, "twenty": 11.30,
+    "plan_auto": 15.94, "knx1": 17.22, "lighting1": 18.40, "climate1": 19.72, "curtains1": 20.88, "umbrella": 23.18, "system1": 23.64,
+    "talk_octonics": 24.52, "dream_project": 25.66, "knx_wiring": 26.62, "wiring": 27.80, "what_are": 29.38, "truly": 31.82,
+    "not_just": 33.22, "phone": 34.76, "advanced": 36.44, "lighting2": 36.86, "ac": 37.64, "curtains2": 38.66, "every": 39.44,
+    "single": 40.82, "application": 41.68, "intelligent": 43.68, "knx3": 45.04, "more_info": 45.94, "connect": 48.64,
+    "connect_octonics": 49.02, "knx4": 50.82, "system4": 52.94, "before": 53.98, "wiring5": 55.42, "consider": 56.14, "knx5": 56.82,
+    "planning": 59.72, "smarter": 62.38, "easy": 63.16, "comfortable": 64.52, "plan": 65.74, "build": 66.74, "choose": 67.54,
+    "octonics_end": 67.74}
+marks = {k: src2out(v) for k, v in SRC_MARKS.items()}
+slow = next(s for s in segs if s.get("speed", 1) != 1)
+marks["warm_start"] = slow["out"][0]; marks["warm_end"] = slow["out"][1]
+marks["end"] = segs[-1]["out"][0]
 tl = json.load(open("cache/timeline.json"))
 tl["captions"] = [{"t0": g[0]["t0"], "t1": g[-1]["t1"], "words": g} for g in groups]
 tl["marks"] = marks
