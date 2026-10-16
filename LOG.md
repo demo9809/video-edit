@@ -4,3 +4,10 @@
 - 2026-10-16 Preflight: ffmpeg 6.1.1 (loudnorm, ebur128, afftdn, deesser OK), Node 22.22, Python 3.13.16, Playwright 1.56.1 + Chromium 1194, Inter font installed. npm and PyPI reachable. HuggingFace blocked (whisper/matting weights).
 - 2026-10-16 User: no reference image needed; no website/handle for end card; wants cinematic reframing/zoom. Network still blocked on re-check.
 - 2026-10-16 User rule: no HuggingFace; ElevenLabs only for sound. Switched isolation to keying + MediaPipe, transcription to ElevenLabs speech-to-text.
+- 2026-10-16 Network opened by user. Downloaded Octonics_demo.mp4 (649 MB, verified size) and 6 logo files.
+- 2026-10-16 ffprobe: 1080x1920, 120 fps, 68.26 s, h264 75 Mbps, AAC 48k stereo. Loudness -20.6 LUFS, TP -3.6.
+- 2026-10-16 Transcribed with ElevenLabs Scribe (flow BuqG7SpucXKWmAFcRwvv, 375 credits). Saved plan/transcript_words.json.
+- 2026-10-16 Found real lighting reaction to Alexa command at 9.0 s and 12.3-13.0 s.
+- 2026-10-16 MediaPipe 1.1.1 in .venv (models from storage.googleapis.com, not HuggingFace). Face track -> cache/faces.json.
+- 2026-10-16 Framing test (1.7x MCU, 2.0x CU) and matte test rendered. Matte has white edge halo; needs refinement.
+- 2026-10-16 Wrote plan/storyboard.md and plan/beats.json (~39.3 s cut).
